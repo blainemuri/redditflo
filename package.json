@@ -1,0 +1,22 @@
+{
+  "name": "redditflo",
+  "version": "1.0.0",
+  "description": "## Installing Requirements `pip3 install -r requirements.txt`",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blaine1726/redditflo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blaine1726/redditflo/issues"
+  },
+  "homepage": "https://github.com/blaine1726/redditflo",
+  "devDependencies": {
+    "bower": "^1.4.1"
+  }
+}
