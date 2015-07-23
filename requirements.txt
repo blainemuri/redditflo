@@ -1,3 +1,2 @@
-redditflo
 Flask>=0.10.1
 praw>=3.1.0
