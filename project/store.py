@@ -19,7 +19,7 @@ class Store:
 
     def refresh_submissions_from_redditor(self, redditor, limit=25):
         cached_submissions = filter(
-            lambda x: x['author'] is not redditor,
+            lambda x: x['author'].lower() is not redditor.lower(),
             self.submissions
         )
         new_submissions = self.fetcher.fetch_submissions(redditor, limit)

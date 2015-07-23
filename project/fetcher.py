@@ -14,7 +14,7 @@ class Fetcher:
 
 def submissionToDict(s):
     return {
-        'author': s.author,
+        'author': s.author.name,
         'body': s.selftext,
         'created': s.created_utc,
         'title': s.title,
