@@ -2,9 +2,31 @@
 /** @jsx React.DOM */
 
 var SearchBar = React.createClass({displayName: "SearchBar",
+
+  // sets initial state
+  getInitialState: function(){
+    return { searchString: '' };
+  },
+
+  // sets state, triggers render method
+  handleChange: function(event){
+    // grab value form input box
+    this.setState({searchString:event.target.value});
+  },
+
+  handleSubmit: function(event){
+    //Will, work your magic here
+  },
+
   render: function() {
+    var searchString = this.state.searchString.trim().toLowerCase();
+
     return (
-      React.createElement("input", {className: "commentBox"}, "Hello, world! I am a CommentBox.")
+      React.createElement("div", null, 
+        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search users..."}), 
+        React.createElement("button", {type: "submit", onClick: this.handleSubmit}, "Submit"), 
+        React.createElement("div", {id: "user-info"})
+      )
     );
   }
 });
