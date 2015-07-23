@@ -5,6 +5,7 @@
     <title>Flask React</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homepage.css') }}">
   </head>
   <body>
     <div class="container">
@@ -15,20 +16,7 @@
     <!-- scripts -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/JSXTransformer.js"></script>
-    <script type="text/jsx">
+    <script type="text/jsx" src="react/helloworld.js"></script>
 
-      /*** @jsx React.DOM */
-
-      var helloWorld = React.createClass({
-        render: function() {
-          return (<h2>Greetings, from Real Python!</h2>)
-        }
-      });
-
-      React.render(
-        React.createElement(helloWorld, null),
-        document.getElementById('content')
-      );
-    </script>
   </body>
 </html>
