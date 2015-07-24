@@ -25,5 +25,10 @@
     "gulp-stylus": "^2.0.5",
     "react": "^0.12.2",
     "reactify": "^1.0.0"
+  },
+  "dependencies": {
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-util": "^3.0.6"
   }
 }

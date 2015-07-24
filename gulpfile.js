@@ -5,73 +5,36 @@
 var gulp = require('gulp'),
     browserify = require('gulp-browserify'),
     size = require('gulp-size'),
-    clean = require('gulp-clean');
-    stylus = require('gulp-stylus');
-
-// include, if you want to work with sourcemaps
-var sourcemaps = require('gulp-sourcemaps');
+    clean = require('gulp-clean'),
+    stylus = require('gulp-stylus'),
+    coffee  = require('gulp-coffee'),
+    concat  = require('gulp-concat'),
+    gutil   = require('gulp-util');
 
 // tasks
 
-// Get one .styl file and render
-gulp.task('one', function () {
-  gulp.src('./css/one.styl')
-    .pipe(stylus())
-    .pipe(gulp.dest('./css/build'));
-});
-
 // Options
 // Options compress
-gulp.task('compress', function () {
-  gulp.src('./css/compressed.styl')
+gulp.task('homepage', function () {
+  gulp.src('./project/static/css/homepage.styl')
     .pipe(stylus({
       compress: true
     }))
-    .pipe(gulp.dest('./css/build'));
+    .pipe(gulp.dest('./project/static/css/build'));
 });
 
-
-// Set linenos
-gulp.task('linenos', function () {
-  gulp.src('./css/linenos.styl')
-    .pipe(stylus({linenos: true}))
-    .pipe(gulp.dest('./css/build'));
-});
-
-// Include css
-// Stylus has an awkward and perplexing 'include css' option
-gulp.task('include-css', function() {
-  gulp.src('./css/*.styl')
-    .pipe(stylus({
-      'include css': true
-    }))
-    .pipe(gulp.dest('./'));
-
-});
-
-// Inline sourcemaps
-gulp.task('sourcemaps-inline', function () {
-  gulp.src('./css/sourcemaps-inline.styl')
-    .pipe(sourcemaps.init())
-    .pipe(stylus())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./css/build'));
-});
-
-// External sourcemaps
-gulp.task('sourcemaps-external', function () {
-  gulp.src('./css/sourcemaps-external.styl')
-    .pipe(sourcemaps.init())
-    .pipe(stylus())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./css/build'));
-});
 
 gulp.task('transform', function () {
   return gulp.src('./project/static/scripts/jsx/main.js')
     .pipe(browserify({transform: ['reactify']}))
-    .pipe(gulp.dest('./project/static/scripts/js'))
+    .pipe(gulp.dest('./project/static/scripts/js/react'))
     .pipe(size());
+});
+
+gulp.task('coffee', function () {
+  return gulp.src('./project/static/scripts/coffeescript/*.coffee')
+    .pipe(coffee())
+    .pipe(gulp.dest('./project/static/scripts/js'))
 });
 
 gulp.task('clean', function () {
@@ -79,7 +42,8 @@ gulp.task('clean', function () {
     .pipe(clean());
 });
 
-gulp.task('default', ['clean', ], function () {
+gulp.task('default', ['clean', 'homepage', 'coffee'], function () {
   gulp.start('transform');
   gulp.watch('./project/static/scripts/jsx/main.js', ['transform']);
+  gulp.watch('./project/static/css/homepage.styl', ['homepage']);
 });
