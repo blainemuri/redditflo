@@ -8,10 +8,14 @@ ternary-color = #FFB347
 ternary-dark = #CC8F39
 ternary-light = #FFC26C
 
+space-micro = .25rem
+space-small = .5rem
 space = 1rem
 space-medium = space * 1.5
 space-large = space * 2
 space-x-large = space * 2.5
+
+nudge = .1rem
 
 @import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
@@ -25,6 +29,8 @@ body
 button
 	background-color primary-color
 	border none
+	color white
+	font-size space*.8
 	-webkit-transition: all .3s ease-in-out;
 	-moz-transition: all .3s ease-in-out;
 	-o-transition: all .3s ease-in-out;
@@ -33,6 +39,24 @@ button
 
 button:hover
 	background-color primary-dark
+
+input[type=text], textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDDDDD;
+}
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px primary-light;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid primary-light;
+}
 
 .header
 	background-color secondary-color
@@ -48,7 +72,6 @@ button:hover
 
 .login
 	height space-x-large
-	color white
 	position fixed
 	right 0
 	margin-right space * 10
@@ -69,16 +92,21 @@ button:hover
 	padding-top space
 	padding-left space
 
+.menu-button
+	width 100%
+	height space-x-large
+	font-size space*.8
+
 .menu-triangle
 	position fixed
 	display inline-block
-	border-top space*10 solid secondary-light
+	border-top space*10 solid primary-color
 	border-right space*10 solid transparent
 
 .menu-buttons
 	width 100%
-	height 100%
 	background-color secondary-dark
+	horizontal-align center
 
 /* entire container, keeps perspective */
 .flip-container {
@@ -122,3 +150,19 @@ button:hover
 .back {
 	transform: rotateY(180deg);
 }
+
+.search-box
+	margin-top - space*10
+	padding-left calc(50% - 17rem)
+
+.search-text
+	line-height space-large
+	vertical-align middle
+	font-size space
+	margin-bottom nudge
+	width space * 30
+
+.search-submit
+	height space-x-large
+	width space * 4
+	margin-top nudge

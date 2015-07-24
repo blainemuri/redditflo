@@ -22,9 +22,9 @@ var SearchBar = React.createClass({displayName: "SearchBar",
     var searchString = this.state.searchString.trim().toLowerCase();
 
     return (
-      React.createElement("div", null, 
-        React.createElement("input", {type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search users..."}), 
-        React.createElement("button", {type: "submit", onClick: this.handleSubmit}, "Submit"), 
+      React.createElement("div", {className: "search-box"}, 
+        React.createElement("input", {className: "search-text", type: "text", value: this.state.searchString, onChange: this.handleChange, placeholder: "Search users..."}), 
+        React.createElement("button", {className: "search-submit", type: "submit", onClick: this.handleSubmit}, "Submit"), 
         React.createElement("div", {id: "user-info"})
       )
     );

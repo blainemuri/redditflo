@@ -21,9 +21,9 @@ var SearchBar = React.createClass({
     var searchString = this.state.searchString.trim().toLowerCase();
 
     return (
-      <div>
-        <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search users..."></input>
-        <button type="submit" onClick={this.handleSubmit}>Submit</button>
+      <div className="search-box">
+        <input className="search-text" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search users..."></input>
+        <button className="search-submit" type="submit" onClick={this.handleSubmit}>Submit</button>
         <div id="user-info"></div>
       </div>
     );
