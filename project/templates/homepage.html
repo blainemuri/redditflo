@@ -12,7 +12,7 @@
     <div class="header">
       <img class="logo" src="{{ url_for('static', filename='logo.png') }}" alt="Redditflo">
     </div>
-    <button class="login">Login</button>
+    <div class="login">Logged in as blah</div>
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
       <div class="flipper">
         <div class="front">
@@ -23,14 +23,15 @@
           <div class="menu-buttons">
             <button class="menu-button home">Home</button>
             <button class="menu-button friends">Friends</button>
-            <button class="menu-button">Option 3</button>
-            <button class="menu-button">Option 4</button>
+            <button class="menu-button profile">Profile</button>
+            <button class="menu-button logout">Logout</button>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
       <div id="main"></div>
+      <div id="login"></div>
     </div>
     <!-- scripts - Go at the bottom for faster rendering-->
     <script src="{{ url_for('static', filename='bower_components/react/react.min.js') }}"></script>

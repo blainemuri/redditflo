@@ -31,6 +31,7 @@ button
 	border none
 	color white
 	font-size space*.8
+	cursor pointer
 	-webkit-transition: all .3s ease-in-out;
 	-moz-transition: all .3s ease-in-out;
 	-o-transition: all .3s ease-in-out;
@@ -39,6 +40,9 @@ button
 
 button:hover
 	background-color primary-dark
+
+button:focus
+	outline none
 
 input[type=text], textarea {
   -webkit-transition: all 0.30s ease-in-out;
@@ -69,13 +73,16 @@ input[type=text]:focus, textarea:focus {
 	padding-right space * 10
 	color white
 	min-width 768px
+	box-shadow: 0 4px 2px -2px secondary-light;
 
 .login
-	height space-x-large
-	position fixed
+	position absolute
 	right 0
 	margin-right space * 10
-	width space * 5
+	color white
+	line-height space-x-large
+	vertical-align middle
+	font-size space*.7
 
 .container
 	padding-top space-x-large
@@ -151,7 +158,8 @@ input[type=text]:focus, textarea:focus {
 }
 
 .search-box
-	padding-left calc(50% - 17rem)
+	width 100%
+	text-align center
 	margin-top space*6
 
 .search-text
@@ -165,3 +173,7 @@ input[type=text]:focus, textarea:focus {
 	height space-x-large
 	width space * 4
 	margin-top nudge
+
+.title
+	font-size space-medium
+	color ternary-color
