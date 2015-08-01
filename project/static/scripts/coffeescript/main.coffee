@@ -1,3 +1,5 @@
+LIMIT = 100
+
 SearchBar = React.createClass
   getInitialState: ->
     searchString: ''
@@ -6,7 +8,10 @@ SearchBar = React.createClass
     @setState searchString: event.target.value
 
   handleSubmit: (event) ->
-    null
+    cback = (data, status) ->
+      console.log status, data
+    username = @state.searchString
+    redditRequest "/user/#{username}", {limit:LIMIT}, cback
 
   render: ->
     {button, div, input} = React.DOM
@@ -76,6 +81,3 @@ Content = React.createClass
 React.render(
   React.createElement(Content, null), document.getElementById('main')
 )
-# React.renderComponent(
-#   Content(null), document.getElementById('main')
-# );
