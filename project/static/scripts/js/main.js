@@ -1,5 +1,7 @@
 (function() {
-  var Content, LoginModal, SearchBar;
+  var Content, LIMIT, LoginModal, SearchBar;
+
+  LIMIT = 100;
 
   SearchBar = React.createClass({
     getInitialState: function() {
@@ -13,7 +15,14 @@
       });
     },
     handleSubmit: function(event) {
-      return null;
+      var cback, username;
+      cback = function(data, status) {
+        return console.log(status, data);
+      };
+      username = this.state.searchString;
+      return redditRequest("/user/" + username, {
+        limit: LIMIT
+      }, cback);
     },
     render: function() {
       var button, div, input, placeholder, ref, searchString;
