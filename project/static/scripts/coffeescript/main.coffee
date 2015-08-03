@@ -28,7 +28,7 @@ SearchBar = React.createClass
         type: 'text'
         value: @state.searchString
         onChange: @handleChange
-        placeholder = 'Search users'
+        placeholder: 'Search users'
       button
         className: 'search-submit'
         type: 'submit'
