@@ -40,6 +40,8 @@ SearchBar = React.createClass
 LoginModal = React.createClass
   getInitialState: ->
     loggedIn: no
+    clientId: 'Ib36UjMWVI9ORA'
+    secret: 'mliTQv0_mjsVhGLKaOKMoEdYV84'
 
   handleSubmit: (event) ->
     @setState loggedIn: yes
