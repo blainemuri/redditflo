@@ -84,7 +84,7 @@ Content = React.createClass
       type: "user",
       name: "btoxic",
       filters: [
-        "NSFW": false
+        excludeTags: ['NSFW']
       ]
     ,
       type: "subreddit",
@@ -92,7 +92,7 @@ Content = React.createClass
       filters: [
         contains: "happy"
       ,
-        NSFW: true
+        includeTags: ['NSFW']
       ]
     ]
     rawFeed: {}
