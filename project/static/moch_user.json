@@ -5,7 +5,7 @@
       "target": "btoxic",
       "filters": [
         {
-          "NSFW": false
+          "NSFW": false,
         }
       ]
     },

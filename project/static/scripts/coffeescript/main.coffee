@@ -77,6 +77,24 @@ LoginModal = React.createClass
               'Login'
 
 Content = React.createClass
+  getInitialState: ->
+    subscriptions: [
+      type: "user",
+      target: "btoxic",
+      filters: [
+        "NSFW": false
+      ]
+    ,
+      type: "subreddit",
+      target: "happiness",
+      filters: [
+        contains: "happy"
+      ,
+        NSFW: true
+      ]
+    ]
+
+
   render: ->
     {div} = React.DOM
     div {},
