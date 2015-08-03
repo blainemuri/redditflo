@@ -1,0 +1,25 @@
+{
+  "subscriptions": [
+    {
+      "type": "user",
+      "target": "btoxic",
+      "filters": [
+        {
+          "NSFW": false
+        }
+      ]
+    },
+    {
+      "type": "subreddit",
+      "target": "happiness",
+      "filters": [
+        {
+          "contains": "happy"
+        },
+        {
+          "NSFW": true
+        }
+      ]
+    }
+  ]
+}
