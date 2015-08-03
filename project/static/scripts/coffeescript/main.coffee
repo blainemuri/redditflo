@@ -82,20 +82,35 @@ Content = React.createClass
   getInitialState: ->
     subscriptions: [
       type: "user",
-      target: "btoxic",
+      name: "btoxic",
       filters: [
         "NSFW": false
       ]
     ,
       type: "subreddit",
-      target: "happiness",
+      name: "happiness",
       filters: [
         contains: "happy"
       ,
         NSFW: true
       ]
     ]
+    rawFeed: {}
 
+  componentDidMount: ->
+    @fetchFeed()
+
+  fetchFeed: ->
+    f = (key) =>
+      (data, status) => @setState rawFeed: "#{key}": data
+    @state.subscriptions.forEach (sub) ->
+      url = if sub.type is "user" then "/user/" else "/r/"
+      url += sub.name
+      if sub.type is "user"
+        url += "/submitted"
+      redditRequest url,
+        limit: 10
+        f "#{sub.type}-#{sub.name}"
 
   render: ->
     {div} = React.DOM
@@ -103,6 +118,7 @@ Content = React.createClass
       React.createElement(LoginModal, null)
       div className: 'container',
         React.createElement(SearchBar, null)
+        JSON.stringify @state.rawFeed
 
 React.render(
   React.createElement(Content, null), document.getElementById('main')
