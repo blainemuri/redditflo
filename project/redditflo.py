@@ -11,8 +11,7 @@ REDIRECT_URI = "http://localhost:5000/authorize_callback"
 
 @app.route('/')
 def homepage():
-    text = '<a href="%s">Authenticate with reddit</a>'
-    return text % make_authorization_url()
+  return render_template('login.html', link=make_authorization_url())
 
 def user_agent():
   return 'Redditflo bot'
