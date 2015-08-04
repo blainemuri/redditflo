@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Redditflo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/build/homepage.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://www.google.com/fonts#UsePlace:use/Collection:Montserrat:700,400">
+  </head>
+  <body>
+    <div class="outer-login">
+      <div class="inner-login">
+        <div>
+         <img class="login-logo" src="./static/logo.png" alt="Redditflo">
+        </div>
+        <div>
+          <a class="login-link" href = {{link}}>Log in with Reddit</a>
+        </div>
+      </div>
+    </div>
+    <div id="login"></div>
+    <!-- scripts - Go at the bottom for faster rendering-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Helpers -->
+    <script src="{{ url_for('static', filename='scripts/js/reddit.js') }}"></script>
+    <!-- React Componenets -->
+    <script src="{{ url_for('static', filename='scripts/js/login.js') }}"></script>
+  </body>
+</html>

@@ -39,7 +39,9 @@ SearchBar = React.createClass
 
 LoginModal = React.createClass
   getInitialState: ->
-    loggedIn: no
+    loggedIn: yes
+    username: ''
+    password: ''
     clientId: 'Ib36UjMWVI9ORA'
     secret: 'mliTQv0_mjsVhGLKaOKMoEdYV84'
 
@@ -49,34 +51,22 @@ LoginModal = React.createClass
   render: ->
     {button, div, img, input} = React.DOM
     div {},
-    if @state.loggedIn
-      ''
-    else
-      div className: 'outer-login',
-        div className: 'inner-login',
-          div {},
-            img
-              className: 'login-logo'
-              src: './static/logo.png'
-              alt: 'Redditflo'
-          div {},
-            input
-              className: 'login-field'
-              id: 'username'
-              type: 'text'
-              placeholder: 'Username'
-          div {},
-            input
-              className: 'login-field'
-              id: 'password'
-              type: 'password'
-              placeholder: 'Password'
-          div {},
-            button
-              className: 'login-button'
-              type: 'submit'
-              onClick: @handleSubmit
-              'Login'
+      if @state.loggedIn
+        ''
+      else
+        div className: 'outer-login',
+          div className: 'inner-login',
+            div {},
+              img
+                className: 'login-logo'
+                src: './static/logo.png'
+                alt: 'Redditflo'
+            div {},
+              button
+                className: 'login-button'
+                type: 'submit'
+                onClick: @handleSubmit
+                'Login'
 
 Content = React.createClass
   getInitialState: ->
