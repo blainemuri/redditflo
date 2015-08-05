@@ -1,4 +1,4 @@
-LIMIT = 100
+LIMIT = 10
 
 SearchBar = React.createClass
   getInitialState: ->
@@ -13,7 +13,7 @@ SearchBar = React.createClass
       if status is 'success'
         @setState userInfo: data
       else
-      console.log status
+        console.log status
     username = @state.searchString
     redditRequest "/user/#{username}", {limit:LIMIT}, cback
 
@@ -36,6 +36,15 @@ SearchBar = React.createClass
         'Submit'
       div id: 'user-info', searchString
       div id: 'user-content', userContent
+
+Feed = React.createClass
+  render: ->
+    {div, span} = React.DOM
+    div className: 'feed-element',
+      div {},
+        span dangerouslySetInnerHTML: __html: marked @props.data.title
+        span {}, "Author: #{@props.data.author}"
+      div dangerouslySetInnerHTML: __html: marked @props.data.selftext
 
 Content = React.createClass
   getInitialState: ->
@@ -61,22 +70,36 @@ Content = React.createClass
 
   fetchFeed: ->
     f = (key) =>
-      (data, status) => @setState rawFeed: "#{key}": data
+      (data, status) =>
+        rawFeed = @state.rawFeed
+        rawFeed["#{key}"] = data
+        @setState rawFeed: rawFeed
     @state.subscriptions.forEach (sub) ->
       url = if sub.type is "user" then "/user/" else "/r/"
       url += sub.name
       if sub.type is "user"
         url += "/submitted"
       redditRequest url,
-        limit: 10
-        f "#{sub.type}-#{sub.name}"
+        limit: LIMIT
+        f "#{sub.type}_#{sub.name}"
+
+  getFeedList: ->
+    rawFeed = @state.rawFeed
+    subs = Object.keys(rawFeed)
+    _.flatten(
+      subs.map (sub) =>
+        @state.rawFeed[sub].data.children.map (data) -> data
+    )
 
   render: ->
-    {div} = React.DOM
+    {div, img} = React.DOM
     div {},
       div className: 'container',
         React.createElement(SearchBar, null)
-        JSON.stringify @state.rawFeed
+        @getFeedList().map (content) ->
+          div {},
+            '----------------------------------------------------------------'
+            React.createElement(Feed, content)
 
 React.render(
   React.createElement(Content, null), document.getElementById('main')
