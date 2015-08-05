@@ -9,6 +9,7 @@ CLIENT_ID = 'HIkG7mKev6WoNA'
 CLIENT_SECRET = 'pXDTQ-whb9tQWt-QN2wBU_oHB1A'
 REDIRECT_URI = "http://localhost:5000/authorize_callback"
 
+#If you are viewing this, it is not what you think it is (i.e. fix later)
 access_token = ''
 
 @app.route('/')
@@ -53,6 +54,18 @@ def reddit_callback():
 
 @app.route('/homepage.html')
 def home():
+  return render_template('homepage.html', user=get_username(access_token))
+
+@app.route('/subscriptions.html')
+def subscriptions():
+  return render_template('subscriptions.html', user=get_username(access_token))
+
+@app.route('/profile.html')
+def profile():
+  return render_template('profile.html', user=get_username(access_token))
+
+@app.route('/logout.html')
+def logout():
   return render_template('homepage.html', user=get_username(access_token))
 
 def get_token(code):
