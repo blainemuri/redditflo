@@ -9,6 +9,8 @@ CLIENT_ID = 'HIkG7mKev6WoNA'
 CLIENT_SECRET = 'pXDTQ-whb9tQWt-QN2wBU_oHB1A'
 REDIRECT_URI = "http://localhost:5000/authorize_callback"
 
+access_token = ''
+
 @app.route('/')
 def homepage():
   return render_template('login.html', link=make_authorization_url())
@@ -36,6 +38,7 @@ def make_authorization_url():
 from flask import abort, request
 @app.route('/authorize_callback')
 def reddit_callback():
+    global access_token
     error = request.args.get('error', '')
     if error:
         return "Error: " + error
@@ -46,11 +49,11 @@ def reddit_callback():
     code = request.args.get('code')
     access_token = get_token(code)
     # We'll change this next line in just a moment
-    return redirect('/homepage.html')
+    return redirect(url_for('home'))
 
 @app.route('/homepage.html')
-def init():
-  return render_template('homepage.html')
+def home():
+  return render_template('homepage.html', user=get_username(access_token))
 
 def get_token(code):
     client_auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
