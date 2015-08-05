@@ -1,0 +1,13 @@
+{
+  "subscriptions": [
+    {
+      "type": "subreddit",
+      "name": "streetfighter",
+      "filters": [
+        {
+          "titleContains": ["gameplay"]
+        }
+      ]
+    }
+  ]
+}
