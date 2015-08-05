@@ -37,37 +37,6 @@ SearchBar = React.createClass
       div id: 'user-info', searchString
       div id: 'user-content', userContent
 
-LoginModal = React.createClass
-  getInitialState: ->
-    loggedIn: yes
-    username: ''
-    password: ''
-    clientId: 'Ib36UjMWVI9ORA'
-    secret: 'mliTQv0_mjsVhGLKaOKMoEdYV84'
-
-  handleSubmit: (event) ->
-    @setState loggedIn: yes
-
-  render: ->
-    {button, div, img, input} = React.DOM
-    div {},
-      if @state.loggedIn
-        ''
-      else
-        div className: 'outer-login',
-          div className: 'inner-login',
-            div {},
-              img
-                className: 'login-logo'
-                src: './static/logo.png'
-                alt: 'Redditflo'
-            div {},
-              button
-                className: 'login-button'
-                type: 'submit'
-                onClick: @handleSubmit
-                'Login'
-
 Content = React.createClass
   getInitialState: ->
     subscriptions: [
@@ -105,7 +74,6 @@ Content = React.createClass
   render: ->
     {div} = React.DOM
     div {},
-      React.createElement(LoginModal, null)
       div className: 'container',
         React.createElement(SearchBar, null)
         JSON.stringify @state.rawFeed
