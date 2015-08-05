@@ -66,7 +66,7 @@ def profile():
 
 @app.route('/logout.html')
 def logout():
-  return render_template('homepage.html', user=get_username(access_token))
+  return render_template('logout.html', user=get_username(access_token))
 
 def get_token(code):
     client_auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)

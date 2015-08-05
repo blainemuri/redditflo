@@ -69,11 +69,11 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
   position absolute
   line-height space-x-large
   vertical-align middle
-  padding-left space * 10
   padding-right space * 10
   color white
   min-width 768px
   box-shadow 0 4px 2px -2px secondary-light
+  top 0
 
 .login
   color white
@@ -100,6 +100,7 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 .logo
   height space-x-large
   float left
+  margin-left space*10
 
 .menu-icon
   height space-x-large
@@ -126,6 +127,7 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 /* entire container, keeps perspective */
 .flip-container {
   perspective: 1000;
+  z-index: 1000;
 }
   /* flip the pane when hovered */
   .flip-container:hover .flipper, .flip-container.hover .flipper {
