@@ -16,19 +16,19 @@
       <!--
       Maybe do this later, idk, seems pretty hard, don't really want to
       <div class="login">Logged in as blah</div> -->
-    </div>
-    <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-      <div class="flipper">
-        <div class="front">
-          <div class="menu-triangle"></div>
-          <img class="menu-icon" src="{{ url_for('static', filename='hamburger.png') }}" alt="Redditflo">
-        </div>
-        <div class="back">
-          <div class="menu-buttons">
-            <a href="{{ url_for('home') }}"><button class="menu-button home">Home</button></a>
-            <a href="{{ url_for('subscriptions') }}"><button class="menu-button subscriptions">Subscriptions</button></a>
-            <a href="{{ url_for('profile') }}"><button class="menu-button profile">Profile</button></a>
-            <a href="{{ url_for('logout') }}"><button class="menu-button logout">Logout</button></a>
+      <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+        <div class="flipper">
+          <div class="front">
+            <div class="menu-triangle"></div>
+            <img class="menu-icon" src="{{ url_for('static', filename='hamburger.png') }}" alt="Redditflo">
+          </div>
+          <div class="back">
+            <div class="menu-buttons">
+              <a href="{{ url_for('home') }}"><button class="menu-button home">Home</button></a>
+              <a href="{{ url_for('subscriptions') }}"><button class="menu-button subscriptions">Subscriptions</button></a>
+              <a href="{{ url_for('profile') }}"><button class="menu-button profile">Profile</button></a>
+              <a href="{{ url_for('logout') }}"><button class="menu-button logout">Logout</button></a>
+            </div>
           </div>
         </div>
       </div>
