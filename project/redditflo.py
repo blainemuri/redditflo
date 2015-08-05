@@ -31,7 +31,7 @@ def make_authorization_url():
               "response_type": "code",
               "state": state,
               "redirect_uri": REDIRECT_URI,
-              "duration": "temporary",
+              "duration": "permanent",
               "scope": "identity"}
     url = "https://ssl.reddit.com/api/v1/authorize?" + urllib.parse.urlencode(params)
     return url
