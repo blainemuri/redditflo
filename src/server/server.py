@@ -24,6 +24,7 @@ def save_json(obj, fname):
 def read_json(fname):
     return json.load(open(fname, 'r'))
 
+
 # Authorization
 
 def user_agent():
@@ -109,6 +110,12 @@ def route_reset_token():
     access_token = ''
     username = ''
     return 'ok'
+
+@app.route('/update_subscriptions')
+def route_update_subs():
+    subscriptions = json.loads(request.args.get('subscriptions'))
+    save_json({'subscriptions': subscriptions}, '{}.json'.format(username))
+    return ''
 
 # Main
 if __name__ == '__main__':
