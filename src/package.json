@@ -1,0 +1,41 @@
+{
+  "name": "redditflo",
+  "version": "1.0.0",
+  "description": "## Installing Requirements `pip3 install -r requirements.txt`",
+  "main": "index.js",
+  "scripts": {
+    "install-electron": "npm install electron-prebuilt --save-dev",
+    "start": "npm run el-client & npm run py-server",
+    "el-client": "electron .",
+    "py-server": "python3 server/server.py",
+    "gulp": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blaine1726/redditflo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blaine1726/redditflo/issues"
+  },
+  "homepage": "https://github.com/blaine1726/redditflo",
+  "dependencies": {
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-install": "^0.4.0",
+    "gulp-size": "^1.2.1",
+    "gulp-stylus": "^2.0.5",
+    "gulp-util": "^3.0.6",
+    "jquery": "^2.1.4",
+    "marked": "^0.3.5",
+    "react": "^0.13.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.30.2",
+    "gulp-install": "^0.4.0"
+  }
+}

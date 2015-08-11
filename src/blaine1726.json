@@ -1,0 +1,16 @@
+{
+    "subscriptions": [
+        {
+            "name": "streetfighter",
+            "type": "subreddit"
+        },
+        {
+            "name": "shweel",
+            "type": "user"
+        },
+        {
+          "name": "btoxic",
+          "type": "user"
+        }
+    ]
+}
