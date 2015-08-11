@@ -53,7 +53,7 @@ App = React.createClass
           feed: []
           name: sub.name
           type: sub.type
-          updated: Date.now()
+          updated: 0
         [key, value]
 
   fetchFeeds: (subscriptions) ->
