@@ -40,6 +40,7 @@ App = React.createClass
         @reloadMainFeed()
 
   setSubscriptions: (subscriptions) ->
+    console.log subscriptions
     @setState
       subscriptions: subscriptions
       feeds: _.object subscriptions.map (sub) ->
@@ -82,9 +83,8 @@ App = React.createClass
         if @state.currentPage is 'homepage'
           React.createElement(Homepage, feed: @state.mainFeed)
         else if @state.currentPage is 'subscriptions'
-          React.createElement(Subscriptions, {})
+          React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)
         else if @state.currentPage is 'profile'
-          console.log "current state is profile"
           React.createElement(Profile, {})
         else if @state.currentPage is 'logout'
           React.createElement(Logout, {})
