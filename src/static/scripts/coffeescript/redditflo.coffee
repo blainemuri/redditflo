@@ -1,9 +1,14 @@
 React = require('react')
 reddit = require('redditflo/reddit')
 _ = require('underscore')
-{Homepage} = require('redditflo/homepage')
 {Login} = require('redditflo/login')
 Python = require('redditflo/python')
+
+{Navbar} = require('redditflo/navbar')
+{Homepage} = require('redditflo/homepage')
+{Subscriptions} = require('redditflo/subscriptions')
+{Profile} = require('redditflo/profile')
+{Logout} = require('redditflo/logout')
 
 App = React.createClass
   getInitialState: ->
@@ -40,12 +45,24 @@ App = React.createClass
     @setState mainFeed: values
 
   render: ->
+    {div} = React.DOM
     if @state.token is ''
       React.createElement(Login, login: @setToken)
-    else if @state.currentPage is 'homepage'
-      React.createElement(Homepage, feed: @state.mainFeed)
     else
-      '404'
+      div {},
+        React.createElement Navbar,
+          username: @state.username
+          setCurrentPage: (page) => @setState currentPage: page
+        if @state.currentPage is 'homepage'
+          React.createElement(Homepage, feed: @state.mainFeed)
+        else if @state.currentPage is 'subscriptions'
+          React.createElement(Subscriptions, {})
+        else if @state.currentPage is 'profile'
+          React.createElement(Profile, {})
+        else if @state.currentPage is 'logout'
+          React.createElement(Logout, {})
+        else
+          '404'
 
 React.render(
   React.createElement(App, null), document.getElementById('main')

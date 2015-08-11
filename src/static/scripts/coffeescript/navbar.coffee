@@ -1,5 +1,8 @@
 React = require('react')
 
+# Props
+#   username
+#   setCurrentPage
 Navbar = React.createClass
   render: ->
     {div, img, a, button} = React.DOM
@@ -17,7 +20,7 @@ Navbar = React.createClass
             div className: 'menu-buttons',
               button
                 className: 'menu-button home'
-                onClick: => @props.setCurrentPage 'home'
+                onClick: => @props.setCurrentPage 'homepage'
                 'Home'
               button
                 className: 'menu-button subscriptions'
@@ -36,7 +39,7 @@ Navbar = React.createClass
         src: 'images/logo.png'
       div
         className: 'login'
-        "logged in as #{Python.getUser()}"
+        "logged in as #{@props.username}"
 
 module.exports =
   Navbar: Navbar

@@ -4,7 +4,7 @@ PREFIX = "http://localhost:3000"
 
 module.exports =
   getAuthorizationUrl: (callback) ->
-    $.get "#{PREFIX}/authorization_url"
+    $.get "#{PREFIX}/authorization_url",
       '',
       callback,
       'json'

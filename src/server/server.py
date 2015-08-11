@@ -84,7 +84,7 @@ def route_subs():
     global username
     if username is '':
         return '{}'
-    else
+    else:
         return json.dumps(read_json('{}.json'.format(username)))
 
 @app.route('/token')
