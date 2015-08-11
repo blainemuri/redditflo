@@ -67,7 +67,7 @@ App = React.createClass
     keys = Object.keys @state.feeds
     feeds = keys.map (k) => @state.feeds[k].feed
     feeds = _.flatten feeds, true
-    feeds = _.sortBy feeds, (f) -> 0 - f.data.created_utc
+    feeds = _.sortBy feeds, (f) -> -f.data.created_utc
     @setState mainFeed: feeds
 
   render: ->
