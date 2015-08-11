@@ -62,6 +62,7 @@ App = React.createClass
         feeds = @state.feeds
         feed = feeds[key]
         feed.feed = data
+        feed.feed.forEach (entry) -> entry.type = sub.type
         feed.updated = Date.now()
         feeds[key] = feed
         @setState feeds: feeds
