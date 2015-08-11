@@ -24,7 +24,7 @@ Feed = React.createClass
         div {},
           span dangerouslySetInnerHTML: __html: title
           span className: 'author', "  Author: #{author}"
-        div dangerouslySetInnerHTML: __html: content
+        div className: 'no-click', dangerouslySetInnerHTML: __html: content
         if thumbnail isnt '' and thumbnail isnt 'self'
           div {}, img src: thumbnail
 
