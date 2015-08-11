@@ -10,19 +10,21 @@ Python = require('redditflo/python')
 {Profile} = require('redditflo/profile')
 {Logout} = require('redditflo/logout')
 
+DEFAULT_STATE =
+  currentPage: 'homepage'
+  feeds: {}
+  mainFeed: []
+  setIntervalID: 0
+  settings:
+    autoRefreshBatchSize: 1
+    autoRefreshEnabled: yes
+    enableAccountUpdates: no
+  subscriptions: []
+  token: ''
+  username: ''
 App = React.createClass
   getInitialState: ->
-    currentPage: 'homepage'
-    feeds: {}
-    mainFeed: []
-    setIntervalID: 0
-    settings:
-      autoRefreshBatchSize: 1
-      autoRefreshEnabled: yes
-      enableAccountUpdates: no
-    subscriptions: {}
-    token: ''
-    username: ''
+    DEFAULT_STATE
 
   componentDidMount: ->
     @setState setIntervalID: setInterval @onInterval, 2000
@@ -31,7 +33,7 @@ App = React.createClass
     if @state.token is ''
       Python.getToken (data) => @setState token: data.token
       Python.getUsername (data) => @setState username: data.username
-      Python.getSubscriptions (data) => @setSubscriptions data.subscriptions
+      Python.getSubscriptions (data) => if data.subscriptions? then @setSubscriptions data.subscriptions
     else
       if @state.settings.autoRefreshEnabled
         subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
@@ -74,6 +76,10 @@ App = React.createClass
     feeds = _.sortBy feeds, (f) -> -f.data.created_utc
     @setState mainFeed: feeds
 
+  logout: ->
+    Python.resetToken()
+    @setState DEFAULT_STATE
+
   render: ->
     {div} = React.DOM
     if @state.token is ''
@@ -90,7 +96,7 @@ App = React.createClass
         else if @state.currentPage is 'profile'
           React.createElement(Profile, {})
         else if @state.currentPage is 'logout'
-          React.createElement(Logout, {})
+          React.createElement(Logout, logout: @logout)
         else
           '404'
 

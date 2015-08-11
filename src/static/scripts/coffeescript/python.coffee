@@ -27,6 +27,12 @@ module.exports =
       callback,
       'json'
 
+  resetToken: ->
+    $.get "#{PREFIX}/reset_token",
+      '',
+      (->),
+      'json'
+
   updateSubscriptions: (subscriptions) ->
     $.get "#{PREFIX}/update_subscriptions",
       {subscriptions: JSON.stringify(subscriptions)},

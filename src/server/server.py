@@ -63,6 +63,10 @@ def get_token(code):
 
 # Routes
 
+@app.route('/')
+def route_authorize_page():
+    return redirect(authorization_url)
+
 @app.route('/authorization_url')
 def route_authorization_url():
     global authorization_url
@@ -71,6 +75,8 @@ def route_authorization_url():
 @app.route('/authorize_callback')
 def route_reddit_callback():
     global access_token
+    if access_token != '':
+        return 'Cannot authenticate more than one user at a time!'
     error = request.args.get('error', '')
     if error:
         return "Error: " + error
@@ -106,10 +112,11 @@ def route_username():
 
 @app.route('/reset_token')
 def route_reset_token():
-    global access_token, username
+    global access_token, username, authorization_url
     access_token = ''
     username = ''
-    return 'ok'
+    authorization_url = make_authorization_url()
+    return redirect("http://localhost:{}/token".format(PORT))
 
 @app.route('/update_subscriptions')
 def route_update_subs():
@@ -121,5 +128,4 @@ def route_update_subs():
 if __name__ == '__main__':
     global authorization_url
     authorization_url = make_authorization_url()
-    webbrowser.open(authorization_url, 1, True)
     app.run(debug=True, port=PORT)
