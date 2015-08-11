@@ -15,7 +15,7 @@ App = React.createClass
     currentPage: 'homepage'
     feeds: {}
     mainFeed: []
-    profile: {}
+    subscriptions: {}
     token: ''
     username: ''
 
@@ -26,11 +26,12 @@ App = React.createClass
     if @state.token is ''
       Python.getToken (data) => @setState token: data.token
       Python.getUsername (data) => @setState username: data.username
+      Python.getSubscriptions (data) => @setState subscriptions: data.subscriptions
     else
-      ''
+      null
 
   fetchFeeds: ->
-    subscriptions = @profile.subscriptions
+    subscriptions = @state.subscriptions
     subscriptions.forEach sub =>
       fetcher = if sub.type is 'user' then reddit.getUserSubmissions else reddit.getSubredditSubmissions
       fetcher sub.name, {}, (data) =>
