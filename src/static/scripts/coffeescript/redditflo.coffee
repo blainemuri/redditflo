@@ -17,7 +17,7 @@ App = React.createClass
     mainFeed: []
     setIntervalID: 0
     settings:
-      autoRefreshBatchSize: 2
+      autoRefreshBatchSize: 1
       autoRefreshEnabled: yes
     subscriptions: {}
     token: ''
@@ -66,7 +66,9 @@ App = React.createClass
   reloadMainFeed: ->
     keys = Object.keys @state.feeds
     feeds = keys.map (k) => @state.feeds[k].feed
-    @setState mainFeed: _.flatten(feeds, true)
+    feeds = _.flatten feeds, true
+    feeds = _.sortBy feeds, (f) -> 0 - f.data.created_utc
+    @setState mainFeed: feeds
 
   render: ->
     {div} = React.DOM
