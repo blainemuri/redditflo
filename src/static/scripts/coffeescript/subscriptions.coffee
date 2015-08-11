@@ -22,7 +22,7 @@ Content = React.createClass
 
   render: ->
     {div, input, button} = React.DOM
-    div {},
+    div className: 'container',
       div className: 'search-box',
         div className: 'title', 'Follow reddit users'
         input
