@@ -26,3 +26,9 @@ module.exports =
       '',
       callback,
       'json'
+
+  updateSubscriptions: (subscriptions) ->
+    $.get "#{PREFIX}/update_subscriptions",
+      {subscriptions: JSON.stringify(subscriptions)},
+      (->),
+      'json'
