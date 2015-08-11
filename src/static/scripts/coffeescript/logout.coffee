@@ -3,7 +3,7 @@ React = require('react')
 Content = React.createClass
   render: ->
     {div} = React.DOM
-    div {}, 'Logout page!'
+    div className: 'container', 'Logout page!'
 
 module.exports =
   Logout: Content

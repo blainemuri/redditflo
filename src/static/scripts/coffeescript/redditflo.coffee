@@ -84,6 +84,7 @@ App = React.createClass
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, {})
         else if @state.currentPage is 'profile'
+          console.log "current state is profile"
           React.createElement(Profile, {})
         else if @state.currentPage is 'logout'
           React.createElement(Logout, {})
