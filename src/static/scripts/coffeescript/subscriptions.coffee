@@ -9,6 +9,7 @@ Content = React.createClass
     data: ''
     user: ''
     dataClass: ''
+    following: no
 
   handleChange: ->
     @setState searchString: event.target.value
@@ -16,17 +17,34 @@ Content = React.createClass
   handleSubmit: (event) ->
     reddit.getUser @state.searchString, {}, (data) =>
       user = @state.searchString
-      if data isnt 'USERNAME ERROR'
-        @setState data: "Follow @#{user}"
-        @setState user: user
-        @setState dataClass: 'user-info card-blue'
-      else
-        @setState data: "That username doesn't seem to exist"
-        @setState dataClass: 'user-error card-error'
+      @setState data: ''
+      @setState dataClass: ''
+      setTimeout( =>
+        if data is 'USERNAME ERROR'
+          @setState data: "That username doesn't seem to exist"
+          @setState dataClass: 'user-error card-error'
+        else if @newUser user
+          @setState data: "Follow @#{user}"
+          @setState user: user
+          @setState dataClass: 'user-info card-blue'
+        else
+          @setState data: "Following @#{user}"
+          @setState user: user
+          @setState dataClass: 'user-info card-success'
+      , 200)
 
   submitUser: ->
     @props.sub.push { "name": "#{@state.user}", "type": "user" }
     @props.setSubscriptions @props.sub
+    @setState dataClass: 'user-info card-success'
+    @setState data: "Following @#{@state.user}"
+
+  newUser: (currUser) ->
+    valid = true
+    @props.sub.map (user) ->
+      if user.type is "user" and user.name is currUser
+        valid = false
+    return valid
 
   render: ->
     {div, input, button} = React.DOM
@@ -46,7 +64,7 @@ Content = React.createClass
           'Submit'
         div 
           className: "#{@state.dataClass}"
-          onClick: => @submitUser()
+          onClick: => @submitUser() if @newUser(@state.user)
           @state.data
 
 module.exports =

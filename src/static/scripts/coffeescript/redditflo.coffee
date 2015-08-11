@@ -40,7 +40,6 @@ App = React.createClass
         @reloadMainFeed()
 
   setSubscriptions: (subscriptions) ->
-    console.log subscriptions
     @setState
       subscriptions: subscriptions
       feeds: _.object subscriptions.map (sub) ->
