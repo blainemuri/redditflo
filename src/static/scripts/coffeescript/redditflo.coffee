@@ -70,6 +70,12 @@ App = React.createClass
     feeds = _.sortBy feeds, (f) -> -f.data.created_utc
     @setState mainFeed: feeds
 
+  numFollowing: ->
+    total = 0
+    @state.subscriptions.map (sub) ->
+      if sub.type is 'user' then total+=1
+    return total
+
   render: ->
     {div} = React.DOM
     if @state.token is ''
@@ -84,7 +90,7 @@ App = React.createClass
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)
         else if @state.currentPage is 'profile'
-          React.createElement(Profile, {})
+          React.createElement(Profile, username: @state.username, following: @numFollowing())
         else if @state.currentPage is 'logout'
           React.createElement(Logout, {})
         else
