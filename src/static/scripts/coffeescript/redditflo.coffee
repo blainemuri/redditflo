@@ -19,6 +19,7 @@ App = React.createClass
     settings:
       autoRefreshBatchSize: 1
       autoRefreshEnabled: yes
+      enableAccountUpdates: no
     subscriptions: {}
     token: ''
     username: ''
@@ -40,6 +41,8 @@ App = React.createClass
         @reloadMainFeed()
 
   setSubscriptions: (subscriptions) ->
+    if @state.settings.enableAccountUpdates
+      Python.updateSubscriptions subscriptions
     @setState
       subscriptions: subscriptions
       feeds: _.object subscriptions.map (sub) ->

@@ -19,7 +19,7 @@ username = ''
 # Helpers
 
 def save_json(obj, fname):
-    json.dump(obj, open(fname, 'w'))
+    json.dump(obj, open(fname, 'w'), indent=4, sort_keys=True)
 
 def read_json(fname):
     return json.load(open(fname, 'r'))
