@@ -1,24 +1,26 @@
 React = require('react')
+reddit = require('redditflo/reddit')
 
 LIMIT = 1000
 
 Content = React.createClass
   getInitialState: ->
     searchString: ''
+    data: ''
+    dataClass: ''
 
   handleChange: ->
     @setState searchString: event.target.value
 
   handleSubmit: (event) ->
-    console.log "Do some stuff"
-    #Do some stuff later
-    ###cback = (data, status) =>
-      if status is 'success'
-        @setState userInfo: data
+    reddit.getUser @state.searchString, {}, (data) =>
+      user = @state.searchString
+      if data isnt 'USERNAME ERROR'
+        @setState data: "Follow @#{user}"
+        @setState dataClass: 'user-info card-blue'
       else
-        console.log status
-    username = @state.searchString
-    redditRequest "/user/#{username}", {limit:LIMIT}, cback###
+        @setState data: "That username doesn't seem to exist"
+        @setState dataClass: 'user-error card-error'
 
   render: ->
     {div, input, button} = React.DOM
@@ -36,7 +38,7 @@ Content = React.createClass
           type: 'submit'
           onClick: @handleSubmit
           'Submit'
-        div id: 'user-info', @state.searchString
+        div className: "#{@state.dataClass}", @state.data
 
 module.exports =
   Subscriptions: Content

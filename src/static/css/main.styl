@@ -9,6 +9,7 @@ ternary-dark = #CC8F39
 ternary-light = #FFC26C
 light-gray = #cfcfcf
 eggshell = #FEFEF2
+coral-red = #FF4040
 
 space-micro = .25rem
 space-small = .5rem
@@ -174,6 +175,7 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
   width 100%
   text-align center
   margin-top space*6
+  horizontal-align middle
 
 .search-text
   line-height space-large
@@ -217,6 +219,9 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 
 .card-orange
   border-bottom 3px solid ternary-color
+  
+.card-error
+  border-bottom 3px solid coral-red
 
 .feed-item
   width 100%
@@ -234,6 +239,26 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
     -moz-transform translateY(-1px)
     transform translateY(-1px)
   min-height space*4.5
+  
+.user-info, .user-error
+  clear both
+  margin space
+  margin-left space*3
+  margin-right space*3
+  padding space-small
+  background white
+  -webkit-transition all 250ms
+  -moz-transition all 250ms
+  transition all 250ms
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  &:hover
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    -webkit-transform translateY(-1px)
+    -moz-transform translateY(-1px)
+    transform translateY(-1px)
+    
+.user-info
+  cursor pointer
 
 .arrows
   width 3rem
@@ -266,3 +291,4 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 .loading-gif
   height space*15
   margin-top - space*5
+  
