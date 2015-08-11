@@ -31,7 +31,7 @@ Content = React.createClass
           @setState data: "Following @#{user}"
           @setState user: user
           @setState dataClass: 'user-info card-success'
-      , 200)
+      , 0)
 
   submitUser: ->
     @props.sub.push { "name": "#{@state.user}", "type": "user" }
