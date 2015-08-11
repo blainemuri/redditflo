@@ -8,10 +8,11 @@ Feed = React.createClass
   render: ->
     {button, div, span, img} = React.DOM
     author = @props.data.data.author
-    title = marked @props.data.data.title
     content = marked @props.data.data.selftext
+    key = @props.data.data.name
     thumbnail = @props.data.data.thumbnail
-    div className: "feed-item #{@state.color}",
+    title = marked @props.data.data.title
+    div className: "feed-item #{@state.color}", key: key,
       div className: 'arrows',
         div {},
           button className: 'arrow-button',
