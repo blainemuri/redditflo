@@ -18,7 +18,7 @@ DEFAULT_STATE =
     login: 0
     updateFeed: 0
   settings:
-    autoRefreshBatchSize: 4
+    autoRefreshBatchSize: 1
     autoRefreshEnabled: yes
     enableAccountUpdates: no
   subscriptions: []
@@ -31,7 +31,7 @@ App = React.createClass
 
   componentDidMount: ->
     loginIntervalId = setInterval @onIntervalLogin, 1000
-    updateFeedIntervalId = setInterval @onIntervalUpdateFeed, 10000
+    updateFeedIntervalId = setInterval @onIntervalUpdateFeed, 2000
     @setState intervalIds:
       login: loginIntervalId
       updateFeed: updateFeedIntervalId

@@ -1,12 +1,18 @@
 marked = require('marked')
+Entities = require('html-entities').AllHtmlEntities
 React = require('react')
 
 Feed = React.createClass
+  getInitialState: ->
+    entities: new Entities()
+
   render: ->
     {button, div, span, img} = React.DOM
     author = @props.data.data.author
     color = if @props.data.type is 'user' then 'card-blue' else 'card-orange'
     content = marked @props.data.data.selftext
+    content = @props.data.data.selftext_html
+    content = @state.entities.decode if content? then content else ''
     thumbnail = @props.data.data.thumbnail
     title = marked @props.data.data.title
     div className: "feed-item #{color}",
