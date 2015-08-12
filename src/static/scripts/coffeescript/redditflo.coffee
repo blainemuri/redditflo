@@ -73,16 +73,26 @@ App = React.createClass
 
   fetchFeeds: (subscriptions) ->
     subscriptions.forEach (sub) =>
-      fetcher = if sub.type is 'user' then reddit.getUserSubmissions else reddit.getSubredditSubmissions
-      fetcher sub.name, {}, (data) =>
-        key = "#{sub.name}_#{sub.type}"
-        feeds = @state.feeds
-        feed = feeds[key]
-        feed.feed = data
-        feed.feed.forEach (entry) -> entry.type = sub.type
-        feed.updated = Date.now()
-        feeds[key] = feed
-        @setState feeds: feeds
+      if sub.type is 'user'
+        reddit.getUserSubmissions sub.name, {}, (data) =>
+          key = "#{sub.name}_#{sub.type}"
+          feeds = @state.feeds
+          feed = feeds[key]
+          feed.feed = data
+          feed.feed.forEach (entry) -> entry.type = sub.type
+          feed.updated = Date.now()
+          feeds[key] = feed
+          @setState feeds: feeds
+      else if sub.type is 'subreddit'
+        reddit.getSubredditSubmissions sub.name, {}, (data) =>
+          key = "#{sub.name}_#{sub.type}"
+          feeds = @state.feeds
+          feed = feeds[key]
+          feed.feed = data
+          feed.feed.forEach (entry) -> entry.type = sub.type
+          feed.updated = Date.now()
+          feeds[key] = feed
+          @setState feeds: feeds
 
   reloadMainFeed: ->
     keys = Object.keys @state.feeds

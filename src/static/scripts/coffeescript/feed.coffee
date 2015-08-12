@@ -2,20 +2,23 @@ marked = require('marked')
 Entities = require('html-entities').AllHtmlEntities
 React = require('react')
 
-Feed = React.createClass
-  getInitialState: ->
-    entities: new Entities()
+entities = new Entities()
 
+decodeToHtml = (text) ->
+  entities.decode text or ''
+
+getInfo = (data) ->
+  author: data.data.author
+  color: if data.type is 'user' then 'card-blue' else 'card-orange'
+  content: decodeToHtml(data.data.selftext_html or data.data.body_html)
+  thumbnail: data.data.thumbnail or ''
+  title: marked(data.data.title or data.data.link_title)
+
+Feed = React.createClass
   render: ->
     {button, div, span, img} = React.DOM
-    author = @props.data.data.author
-    color = if @props.data.type is 'user' then 'card-blue' else 'card-orange'
-    content = marked @props.data.data.selftext
-    content = @props.data.data.selftext_html
-    content = @state.entities.decode if content? then content else ''
-    thumbnail = @props.data.data.thumbnail
-    title = marked @props.data.data.title
-    div className: "feed-item #{color}",
+    info = getInfo @props.data
+    div className: "feed-item #{info.color}",
       div className: 'arrows',
         div {},
           button className: 'arrow-button',
@@ -25,11 +28,11 @@ Feed = React.createClass
             img className: 'down-arrow', src: 'images/arrowdown.png'
       div className: 'content',
         div {},
-          span dangerouslySetInnerHTML: __html: title
-          span className: 'author', "  Author: #{author}"
-        div className: 'no-click', dangerouslySetInnerHTML: __html: content
-        if thumbnail isnt '' and thumbnail isnt 'self'
-          div {}, img src: thumbnail
+          span dangerouslySetInnerHTML: __html: info.title
+          span className: 'author', "  Author: #{info.author}"
+        div className: 'no-click', dangerouslySetInnerHTML: __html: info.content
+        if info.thumbnail isnt '' and info.thumbnail isnt 'self'
+          div {}, img src: info.thumbnail
 
 module.exports =
   Feed: Feed
