@@ -11,9 +11,13 @@ getInfo = (data) ->
   author: data.data.author
   color: if data.type is 'user' then 'card-blue' else 'card-orange'
   content: decodeToHtml(data.data.selftext_html or data.data.body_html)
+  date: (new Date data.data.created_utc * 1000).toString()
+  downvotes: data.data.downs
+  subreddit: data.data.subreddit
   thumbnail: data.data.thumbnail or ''
   title: marked(data.data.title or data.data.link_title)
   url: data.data.url
+  upvotes: data.data.ups
 
 Feed = React.createClass
   onClick: ->
