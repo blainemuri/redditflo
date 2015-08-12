@@ -13,12 +13,16 @@ getInfo = (data) ->
   content: decodeToHtml(data.data.selftext_html or data.data.body_html)
   thumbnail: data.data.thumbnail or ''
   title: marked(data.data.title or data.data.link_title)
+  url: data.data.url
 
 Feed = React.createClass
+  onClick: ->
+    @props.onUrl @props.data.data.url
+
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
-    div className: "feed-item #{info.color}",
+    div className: "feed-item #{info.color}", onClick: @onClick,
       div className: 'arrows',
         div {},
           button className: 'arrow-button',
