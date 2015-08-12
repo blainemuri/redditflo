@@ -27,24 +27,25 @@ Uploader = React.createClass
             src: "#{@state.src}"
 
 Subscription = React.createClass
-  getInitialState: ->
-    name: @props.name
-    type: @props.type
+  deleteSubscription: ->
+    newSubs = []
+    @props.subs.map (sub) =>
+      if sub.name isnt @props.name or sub.type isnt @props.type then newSubs.push sub
+    @props.setSubs newSubs
 
   render: ->
     {div, img} = React.DOM
     div {},
       div className: 'subscription-container',
         div className: 'sub-name', "@#{@props.name}"
-        div className: 'sub-x',
+        div
+          className: 'sub-x'
+          onClick: => @deleteSubscription()
           img
             className: 'cancel-icon'
             src: 'images/cancel.png'
 
 MainContent = React.createClass
-  getInitialState: ->
-    subscriptions: @props.subscriptions
-
   render: ->
     {div, span} = React.DOM
     div {},
@@ -53,17 +54,17 @@ MainContent = React.createClass
           div className: 'profile-title', 'Following'
           span className: 'underline card-blue',''
           div className: 'profile-card-inner',
-            @props.subscriptions.map (sub) ->
+            @props.subscriptions.map (sub) =>
               if sub.type is 'user'
-                React.createElement(Subscription, type: 'user', name: sub.name)
+                React.createElement(Subscription, {type: 'user', name: sub.name, setSubs: @props.setSubs, subs: @props.subscriptions})
       div className: 'profile-card subreddit',
         div className: 'subreddit-card card-orange',
           div className: 'profile-title', 'Subreddits'
           span className: 'underline card-orange', ''
           div className: 'profile-card-inner',
-            @props.subscriptions.map (sub) ->
+            @props.subscriptions.map (sub) =>
               if sub.type is 'subreddit'
-                React.createElement(Subscription, type: 'subreddit', name: sub.name)
+                React.createElement(Subscription, {type: 'subreddit', name: sub.name, setSubs: @props.setSubs, subs: @props.subscriptions})
 
 Content = React.createClass
   numFollowing: ->
@@ -80,7 +81,7 @@ Content = React.createClass
         div className: 'username', "@#{@props.username}"
         div className: 'following', "Following: #{@numFollowing()} redditors"
       div className: 'profile-content',
-        React.createElement(MainContent, subscriptions: @props.subscriptions)
+        React.createElement(MainContent, subscriptions: @props.subscriptions, setSubs: @props.setSubs)
 
 module.exports =
   Profile: Content

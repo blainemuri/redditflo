@@ -109,7 +109,7 @@ App = React.createClass
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)
         else if @state.currentPage is 'profile'
-          React.createElement(Profile, username: @state.username, subscriptions: @state.subscriptions)
+          React.createElement(Profile, setSubs: @setSubscriptions, username: @state.username, subscriptions: @state.subscriptions)
         else if @state.currentPage is 'logout'
           React.createElement(Logout, logout: @logout)
         else
