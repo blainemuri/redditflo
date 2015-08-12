@@ -10,6 +10,7 @@ ternary-light = #FFC26C
 light-gray = #cfcfcf
 eggshell = #FEFEF2
 coral-red = #FF4040
+light-red = #FF7979
 pastel-green = #77dd77
 
 space-micro = .25rem
@@ -237,11 +238,6 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
   -moz-transition all 250ms
   transition all 250ms
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  &:hover
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    -webkit-transform translateY(-1px)
-    -moz-transform translateY(-1px)
-    transform translateY(-1px)
   min-height space*4.5
 
 .user-info, .user-error
@@ -300,22 +296,74 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
   pointer-events none
 
 .dropzone-inner
-  max-width space*8
-  height space*8
-  padding space
+  width space*10
+  height space*10
 
 .dz-default
-  max-width space*8
+  width space*9
 
 .dropzone
   width space*10
+  height space*10
+  margin space
   float left
+
+.dropzone:hover
+  box-shadow 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
 
 .profile-info
   padding space
   padding-left space-x-large
-  padding-top space*3
+  padding-top space*4
 
 .username
   font-size space-medium
   margin-bottom space-small
+
+.profile-content
+  width 100%
+  display inline-block
+
+.profile-card
+  width space*30
+  margin space
+  &.follow
+    float left
+  &.subreddit
+    float left
+
+.follow-card, .subreddit-card
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+.profile-card-inner
+  max-height space*24
+  overflow auto
+
+.profile-title
+  font-size space*1.2
+  padding space*.75
+
+.underline
+  width space*30
+  display inline-block
+
+.subscription-container
+  height space*3
+  border-bottom 1px solid light-gray
+  line-height space*3
+  vertical-align middle
+  padding-left space
+
+.sub-name
+  float left
+
+.sub-x
+  float right
+
+.cancel-icon
+  width space
+  height space
+  border-left 1px solid light-gray
+  padding space
+  &:hover
+    background-color light-red

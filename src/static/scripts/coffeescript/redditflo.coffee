@@ -22,6 +22,7 @@ DEFAULT_STATE =
   subscriptions: []
   token: ''
   username: ''
+
 App = React.createClass
   getInitialState: ->
     DEFAULT_STATE
@@ -76,12 +77,6 @@ App = React.createClass
     feeds = _.sortBy feeds, (f) -> -f.data.created_utc
     @setState mainFeed: feeds
 
-  numFollowing: ->
-    total = 0
-    @state.subscriptions.map (sub) ->
-      if sub.type is 'user' then total+=1
-    return total
-
   logout: ->
     Python.resetToken()
     @setState DEFAULT_STATE
@@ -100,7 +95,7 @@ App = React.createClass
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)
         else if @state.currentPage is 'profile'
-          React.createElement(Profile, username: @state.username, following: @numFollowing())
+          React.createElement(Profile, username: @state.username, subscriptions: @state.subscriptions)
         else if @state.currentPage is 'logout'
           React.createElement(Logout, logout: @logout)
         else
