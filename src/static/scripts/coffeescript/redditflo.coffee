@@ -1,14 +1,16 @@
 React = require('react')
-reddit = require('redditflo/reddit')
 _ = require('underscore')
-{Login} = require('redditflo/login')
+
+reddit = require('redditflo/reddit')
 Python = require('redditflo/python')
 
+{Login} = require('redditflo/login')
 {Navbar} = require('redditflo/navbar')
 {Homepage} = require('redditflo/homepage')
 {Subscriptions} = require('redditflo/subscriptions')
 {Profile} = require('redditflo/profile')
 {Logout} = require('redditflo/logout')
+windows = require('redditflo/windows')
 
 DEFAULT_STATE =
   currentPage: 'homepage'
@@ -47,7 +49,6 @@ App = React.createClass
       Python.getSubscriptions (data) =>
         if data.subscriptions?
           @setSubscriptions data.subscriptions
-          [0..1].forEach => @onIntervalUpdateFeed()
 
   onIntervalUpdateFeed: ->
     if @state.settings.autoRefreshEnabled
@@ -73,16 +74,26 @@ App = React.createClass
 
   fetchFeeds: (subscriptions) ->
     subscriptions.forEach (sub) =>
-      fetcher = if sub.type is 'user' then reddit.getUserSubmissions else reddit.getSubredditSubmissions
-      fetcher sub.name, {}, (data) =>
-        key = "#{sub.name}_#{sub.type}"
-        feeds = @state.feeds
-        feed = feeds[key]
-        feed.feed = data
-        feed.feed.forEach (entry) -> entry.type = sub.type
-        feed.updated = Date.now()
-        feeds[key] = feed
-        @setState feeds: feeds
+      if sub.type is 'user'
+        reddit.getUserSubmissions sub.name, {}, (data) =>
+          key = "#{sub.name}_#{sub.type}"
+          feeds = @state.feeds
+          feed = feeds[key]
+          feed.feed = data
+          feed.feed.forEach (entry) -> entry.type = sub.type
+          feed.updated = Date.now()
+          feeds[key] = feed
+          @setState feeds: feeds
+      else if sub.type is 'subreddit'
+        reddit.getSubredditSubmissions sub.name, {}, (data) =>
+          key = "#{sub.name}_#{sub.type}"
+          feeds = @state.feeds
+          feed = feeds[key]
+          feed.feed = data
+          feed.feed.forEach (entry) -> entry.type = sub.type
+          feed.updated = Date.now()
+          feeds[key] = feed
+          @setState feeds: feeds
 
   reloadMainFeed: ->
     keys = Object.keys @state.feeds
@@ -105,7 +116,9 @@ App = React.createClass
           username: @state.username
           setCurrentPage: (page) => @setState currentPage: page
         if @state.currentPage is 'homepage'
-          React.createElement(Homepage, feed: @state.mainFeed)
+          React.createElement Homepage,
+            feed: @state.mainFeed
+            onUrl: (url) -> windows.setReddit url
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)
         else if @state.currentPage is 'profile'
