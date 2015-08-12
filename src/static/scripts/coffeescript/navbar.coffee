@@ -25,7 +25,7 @@ Navbar = React.createClass
               button
                 className: 'menu-button subscriptions'
                 onClick: => @props.setCurrentPage 'subscriptions'
-                'Subscriptions'
+                'Subscribe'
               button
                 className: 'menu-button profile'
                 onClick: => @props.setCurrentPage 'profile'

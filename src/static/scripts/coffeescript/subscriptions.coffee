@@ -47,22 +47,25 @@ Content = React.createClass
     return valid
 
   render: ->
-    {div, input, button} = React.DOM
+    {div, input, button, form} = React.DOM
     div className: 'container',
       div className: 'search-box',
         div className: 'title', 'Follow reddit users'
         input
           className: 'search-text'
           type: 'text'
+          onSubmit: @handleSubmit
           value: @state.searchString
           onChange: @handleChange
           placeholder: 'Search users'
+          onKeyPress: (e) =>
+            if e.key is 'Enter' then @handleSubmit e
         button
           className: 'search-submit'
           type: 'submit'
           onClick: @handleSubmit
           'Submit'
-        div 
+        div
           className: "#{@state.dataClass}"
           onClick: => @submitUser() if @newUser(@state.user)
           @state.data
