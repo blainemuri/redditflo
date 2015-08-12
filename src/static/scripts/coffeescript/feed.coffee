@@ -13,6 +13,7 @@ getInfo = (data) ->
   content: decodeToHtml(data.data.selftext_html or data.data.body_html)
   date: (new Date data.data.created_utc * 1000).toString()
   downvotes: data.data.downs
+  id: data.data.name
   subreddit: data.data.subreddit
   thumbnail: data.data.thumbnail or ''
   title: marked(data.data.title or data.data.link_title)
@@ -26,6 +27,7 @@ Feed = React.createClass
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
+    console.log @props.data.data
     div className: "feed-item #{info.color}", onClick: @onClick,
       div className: 'arrows',
         div {},
