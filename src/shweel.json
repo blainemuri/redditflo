@@ -1,16 +1,28 @@
 {
     "subscriptions": [
         {
-            "name": "streetfighter",
-            "type": "subreddit"
+            "name": "graphicontent",
+            "type": "user"
         },
         {
             "name": "blaine1726",
             "type": "user"
         },
         {
+            "name": "streetfighter",
+            "type": "subreddit"
+        },
+        {
             "name": "btoxic",
             "type": "user"
+        },
+        {
+          "name": "funny",
+          "type": "subreddit"
+        },
+        {
+          "name": "LanguageTechnology",
+          "type": "subreddit"
         }
     ]
 }

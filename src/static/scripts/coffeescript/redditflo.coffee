@@ -14,9 +14,11 @@ DEFAULT_STATE =
   currentPage: 'homepage'
   feeds: {}
   mainFeed: []
-  setIntervalID: 0
+  intervalIds:
+    login: 0
+    updateFeed: 0
   settings:
-    autoRefreshBatchSize: 1
+    autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
   subscriptions: []
@@ -28,20 +30,32 @@ App = React.createClass
     DEFAULT_STATE
 
   componentDidMount: ->
-    @setState setIntervalID: setInterval @onInterval, 2000
+    loginIntervalId = setInterval @onIntervalLogin, 1000
+    updateFeedIntervalId = setInterval @onIntervalUpdateFeed, 10000
+    @setState intervalIds:
+      login: loginIntervalId
+      updateFeed: updateFeedIntervalId
 
-  onInterval: ->
-    if @state.token is ''
-      Python.getToken (data) => @setState token: data.token
+  onIntervalLogin: ->
+    currentToken = @state.token
+    Python.getToken (data) =>
+      @setState token: data.token
+      if currentToken isnt '' and data.token is ''
+        @logout()
+    if currentToken is ''
       Python.getUsername (data) => @setState username: data.username
-      Python.getSubscriptions (data) => if data.subscriptions? then @setSubscriptions data.subscriptions
-    else
-      if @state.settings.autoRefreshEnabled
-        subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
-        subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
-        subs = subs.map (key) => @state.feeds[key]
-        @fetchFeeds subs
-        @reloadMainFeed()
+      Python.getSubscriptions (data) =>
+        if data.subscriptions?
+          @setSubscriptions data.subscriptions
+          [0..1].forEach => @onIntervalUpdateFeed()
+
+  onIntervalUpdateFeed: ->
+    if @state.settings.autoRefreshEnabled
+      subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
+      subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
+      subs = subs.map (key) => @state.feeds[key]
+      @fetchFeeds subs
+      @reloadMainFeed()
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates

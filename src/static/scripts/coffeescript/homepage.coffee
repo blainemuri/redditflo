@@ -9,7 +9,7 @@ Homepage = React.createClass
     {div, img, span} = React.DOM
     feed = @props.feed
     div className: 'container',
-      feed.map (data, idx) -> React.createElement(Feed, data: data)
+      feed.map (data) -> span key: data.data.name, React.createElement(Feed, data: data)
 
 module.exports =
   Homepage: Homepage

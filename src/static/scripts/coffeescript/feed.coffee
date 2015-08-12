@@ -7,10 +7,9 @@ Feed = React.createClass
     author = @props.data.data.author
     color = if @props.data.type is 'user' then 'card-blue' else 'card-orange'
     content = marked @props.data.data.selftext
-    key = @props.data.data.name
     thumbnail = @props.data.data.thumbnail
     title = marked @props.data.data.title
-    div className: "feed-item #{color}", key: key,
+    div className: "feed-item #{color}",
       div className: 'arrows',
         div {},
           button className: 'arrow-button',
