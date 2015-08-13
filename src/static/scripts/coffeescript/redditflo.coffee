@@ -109,7 +109,7 @@ App = React.createClass
     @setState DEFAULT_STATE
 
   render: ->
-    {div} = React.DOM
+    {div, button, span} = React.DOM
     if @state.token is ''
       React.createElement(Login, login: @setToken)
     else

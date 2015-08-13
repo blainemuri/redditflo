@@ -33,11 +33,17 @@ Homepage = React.createClass
         'Next'
 
   render: ->
-    {div, img, span, webview} = React.DOM
+    {button, div, img, span, webview} = React.DOM
     feed = @props.feed
     start = @state.start
     end = start + @props.nShown
     div className: 'container',
+      div className: 'sort-buttons',
+          span className: 'sort-by', 'Sort By:'
+          button className: 'sort-button', 'time'
+          button className: 'sort-button', 'score'
+          button className: 'sort-button', 'ups'
+          button className: 'sort-button', 'downs'
       feed.slice(start, end).map (data) =>
         span key: data.data.name,
           React.createElement Feed,
