@@ -11,9 +11,9 @@ SubscriptionInfo = React.createClass
     if @props.type is 'user'
       reddit.getUser @props.name, limit: 100, (data) =>
         participations = if data.children? then data.children else []
-        @setState participations: participations.map (x) -> x.data
+        @setState participations: _.sortBy (participations.map (x) -> x.data), (x) -> -x.score
 
-  getParticipation: ->
+  getSubredditCounts: ->
     participations = @state.participations
     subredditCounts = participations.reduce ((a, b) -> b = b.subreddit; a[b] = (a[b] or 0) + 1; a), {}
     subredditCounts = Object.keys(subredditCounts).map (k) -> [k, subredditCounts[k]]
@@ -22,7 +22,7 @@ SubscriptionInfo = React.createClass
 
   getStats: ->
     if @props.type is 'user'
-      @getParticipation().slice(0, 5).map ([key, value]) -> "#{key}: #{value}"
+      @getSubredditCounts().slice(0, 3).map ([key, value]) -> "#{key}: #{value}"
     else
       []
 

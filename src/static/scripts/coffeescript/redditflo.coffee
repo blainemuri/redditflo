@@ -22,9 +22,9 @@ DEFAULT_STATE =
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
-    limit: 100
+    limit: 10
     shownFeedSize: 50
-    sortBy: 'ups' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
+    sortBy: 'score' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
     sortOrder: -1 # 1: ascending, -1 descending
   subscriptions: []
   token: ''
