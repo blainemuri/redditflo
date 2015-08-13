@@ -10,7 +10,8 @@ SubscriptionInfo = React.createClass
   componentDidMount: ->
     if @props.type is 'user'
       reddit.getUser @props.name, limit: 100, (data) =>
-        @setState participations: data.children.map (x) -> x.data
+        participations = if data.children? then data.children else []
+        @setState participations: participations.map (x) -> x.data
 
   getParticipation: ->
     participations = @state.participations
