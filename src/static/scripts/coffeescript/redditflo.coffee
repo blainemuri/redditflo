@@ -18,11 +18,11 @@ DEFAULT_STATE =
   mainFeed: []
   intervalIds:
     login: 0
-    updateFeed: 0
   settings:
-    autoRefreshBatchSize: 1
+    autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
+    limit: 10
   subscriptions: []
   token: ''
   username: ''
@@ -33,10 +33,9 @@ App = React.createClass
 
   componentDidMount: ->
     loginIntervalId = setInterval @onIntervalLogin, 1000
-    updateFeedIntervalId = setInterval @onIntervalUpdateFeed, 2000
+    setTimeout @onIntervalUpdateFeed, 2000
     @setState intervalIds:
       login: loginIntervalId
-      updateFeed: updateFeedIntervalId
 
   onIntervalLogin: ->
     currentToken = @state.token
@@ -53,10 +52,15 @@ App = React.createClass
   onIntervalUpdateFeed: ->
     if @state.settings.autoRefreshEnabled
       subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
+      lastUpdated = @state.feeds[subs[0]].updated
       subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
       subs = subs.map (key) => @state.feeds[key]
       @fetchFeeds subs
       @reloadMainFeed()
+      if lastUpdated is 0
+        setTimeout @onIntervalUpdateFeed, 2000
+      else
+        setTimeout @onIntervalUpdateFeed, 10000
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates
@@ -75,7 +79,7 @@ App = React.createClass
   fetchFeeds: (subscriptions) ->
     subscriptions.forEach (sub) =>
       if sub.type is 'user'
-        reddit.getUserSubmissions sub.name, {}, (data) =>
+        reddit.getUserSubmissions sub.name, {limit: @state.settings.limit}, (data) =>
           key = "#{sub.name}_#{sub.type}"
           feeds = @state.feeds
           feed = feeds[key]
@@ -85,7 +89,7 @@ App = React.createClass
           feeds[key] = feed
           @setState feeds: feeds
       else if sub.type is 'subreddit'
-        reddit.getSubredditSubmissions sub.name, {}, (data) =>
+        reddit.getSubredditSubmissions sub.name, {limit: @state.settings.limit}, (data) =>
           key = "#{sub.name}_#{sub.type}"
           feeds = @state.feeds
           feed = feeds[key]

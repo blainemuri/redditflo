@@ -6,7 +6,7 @@ Python = require('redditflo/python')
 
 Homepage = React.createClass
   render: ->
-    {div, img, span} = React.DOM
+    {div, img, span, webview} = React.DOM
     feed = @props.feed
     div className: 'container',
       feed.map (data) =>
