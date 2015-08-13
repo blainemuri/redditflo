@@ -40,10 +40,22 @@ Homepage = React.createClass
     div className: 'container',
       div className: 'sort-buttons',
           span className: 'sort-by', 'Sort By:'
-          button className: 'sort-button', 'time'
-          button className: 'sort-button', 'score'
-          button className: 'sort-button', 'ups'
-          button className: 'sort-button', 'downs'
+          button
+            className: "sort-button #{'focus' if @props.focus is 'created_utc'}"
+            onClick: => @props.setSort 'created_utc'
+            'time'
+          button
+            className:  "sort-button #{'focus' if @props.focus is 'score'}"
+            onClick: => @props.setSort 'score'
+            'score'
+          button
+            className: "sort-button #{'focus' if @props.focus is 'ups'}"
+            onClick: => @props.setSort 'ups'
+            'ups'
+          button
+            className: "sort-button #{'focus' if @props.focus is 'downs'}"
+            onClick: => @props.setSort 'downs'
+            'downs'
       feed.slice(start, end).map (data) =>
         span key: data.data.name,
           React.createElement Feed,

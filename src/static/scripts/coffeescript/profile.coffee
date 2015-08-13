@@ -46,7 +46,7 @@ Subscription = React.createClass
     {div, img} = React.DOM
     div {},
       div className: 'subscription-container',
-        div className: 'sub-name', onClick: @toggleShowInfo, "@#{@props.name}"
+        div className: 'sub-name', onClick: @toggleShowInfo, "#{if @props.type is 'subreddit' then '/r/' else '@'}#{@props.name}"
         div
           className: 'sub-x'
           onClick: => @deleteSubscription()

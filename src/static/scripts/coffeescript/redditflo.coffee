@@ -40,6 +40,11 @@ App = React.createClass
     @setState intervalIds:
       login: loginIntervalId
 
+  setSortingMethod: (sort) ->
+    settings = @state.settings
+    settings.sortBy = sort
+    @setState settings: settings
+
   onIntervalLogin: ->
     currentToken = @state.token
     Python.getToken (data) =>
@@ -122,6 +127,8 @@ App = React.createClass
         if @state.currentPage is 'homepage'
           React.createElement Homepage,
             feed: @state.mainFeed
+            setSort: @setSortingMethod
+            focus: @state.settings.sortBy
             nShown: @state.settings.shownFeedSize
             onUrl: (url) -> windows.setReddit url
         else if @state.currentPage is 'subscriptions'

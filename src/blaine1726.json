@@ -1,7 +1,11 @@
 {
     "subscriptions": [
         {
-            "name": "frontpage",
+            "name": "python",
+            "type": "subreddit"
+        },
+        {
+            "name": "funny",
             "type": "subreddit"
         },
         {

@@ -31,7 +31,8 @@ Feed = React.createClass
     expanded: ''
     currentVote: 0
 
-  sendDownvote: (id) ->
+  sendDownvote: (e, id) ->
+    e.stopPropagation()
     if @state.currentVote is 0 or @state.currentVote is 1
       Python.updateVote(id, '-1')
       @setState currentVote: -1
@@ -39,7 +40,8 @@ Feed = React.createClass
       Python.updateVote(id, '0')
       @setState currentVote: 0
 
-  sendUpvote: (id) ->
+  sendUpvote: (e, id) ->
+    e.stopPropagation()
     if @state.currentVote is 0 or @state.currentVote is -1
       Python.updateVote(id, '1')
       @setState currentVote: 1
@@ -47,29 +49,33 @@ Feed = React.createClass
       Python.updateVote(id, '0')
       @setState currentVote: 0
 
+  reddit: (e) ->
+    e.stopPropagation()
+    @setState expanded: if @state.expanded is 'red' then '' else 'red'
+
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
 
     span {},
-      div className: "feed-item #{info.color}",
+      div className: "feed-item #{info.color}", onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
         div className: 'arrows',
           div {},
             button
               className: "arrow-button #{'pressed' if @state.currentVote is 1}"
-              onClick: => @sendUpvote info.id
+              onClick: (e) => @sendUpvote e, info.id
               img className: 'up-arrow', src: 'images/arrow.png'
           div {},
             button
               className: "arrow-button #{'pressed' if @state.currentVote is -1}"
-              onClick: => @sendDownvote info.id
+              onClick: (e) => @sendDownvote e, info.id
               img className: 'down-arrow', src: 'images/arrowdown.png'
           div {},
             button
               className: 'arrow-button'
-              onClick: (=> @setState expanded: if @state.expanded is 'red' then '' else 'red'),
+              onClick: (e) => @reddit e
               img className: 'down-arrow', src: 'images/reddit-alien.png'
-        div className: 'content', onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
+        div className: 'content',
           div className: 'upper-content',
             span className: 'feed-title', dangerouslySetInnerHTML: __html: info.title
             div className: 'author', "  Author: #{info.author}"
