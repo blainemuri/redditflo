@@ -90,7 +90,6 @@ Content = React.createClass
 
   render: ->
     {div, input, button, form} = React.DOM
-    console.log @state
     div className: 'container',
       div className: 'search-box',
         div className: 'title', 'Follow users and subreddits'
