@@ -68,10 +68,11 @@ Feed = React.createClass
               onClick: (=> @setState expanded: if @state.expanded is 'red' then '' else 'red'),
               img className: 'down-arrow', src: 'images/reddit-alien.png'
         div className: 'content', onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
-          div {},
-            span dangerouslySetInnerHTML: __html: info.title
-            span className: 'author', "  Author: #{info.author}"
-          div className: 'no-click', dangerouslySetInnerHTML: __html: info.content
+          div className: 'upper-content',
+            span className: 'feed-title', dangerouslySetInnerHTML: __html: info.title
+            div className: 'author', "  Author: #{info.author}"
+            div className: 'subreddit', "  Subreddit: #{info.subreddit}"
+          div className: 'no-click main-content', dangerouslySetInnerHTML: __html: info.content
           if info.thumbnail isnt '' and info.thumbnail isnt 'self'
             div {}, img src: info.thumbnail
       if @state.expanded is 'ext'
