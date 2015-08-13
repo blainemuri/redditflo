@@ -23,7 +23,7 @@ DEFAULT_STATE =
     autoRefreshEnabled: yes
     enableAccountUpdates: no
     limit: 100
-    showFeedSize: 50
+    shownFeedSize: 50
   subscriptions: []
   token: ''
   username: ''
@@ -53,12 +53,12 @@ App = React.createClass
   onIntervalUpdateFeed: ->
     if @state.settings.autoRefreshEnabled
       subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
-      lastUpdated = @state.feeds[subs[0]].updated
+      lastUpdated = if subs.length is 0 then 0 else @state.feeds[subs[0]].updated
       subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
       subs = subs.map (key) => @state.feeds[key]
       @fetchFeeds subs
       @reloadMainFeed()
-      setTimeout @onIntervalUpdateFeed, if lastUpdated is 0 then 2000 else 5000
+    setTimeout @onIntervalUpdateFeed, if lastUpdated is 0 then 2000 else 5000
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates
