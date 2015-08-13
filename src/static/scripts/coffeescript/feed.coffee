@@ -13,9 +13,11 @@ decodeToHtml = (text) ->
 getInfo = (data) ->
   author: data.data.author
   color: if data.type is 'user' then 'card-blue' else 'card-orange'
+  commentCount: data.data.num_comments
   content: decodeToHtml(data.data.selftext_html or data.data.body_html)
   date: (new Date data.data.created_utc * 1000).toString()
   downvotes: data.data.downs
+  score: data.data.score
   id: data.data.name
   redditLink: "https://www.reddit.com#{data.data.permalink}"
   subreddit: data.data.subreddit

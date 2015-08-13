@@ -1,6 +1,8 @@
 React = require('react')
 reddit = require('redditflo/reddit')
 
+{SubscriptionInfo} = require('redditflo/subscription_info')
+
 LIMIT = 1000
 
 ###########################################
@@ -110,6 +112,9 @@ Content = React.createClass
             className: "#{@state.userDataClass}"
             onClick: => @submitUser() if @newUser(@state.user)
             @state.userData
+            React.createElement SubscriptionInfo,
+              name: @state.user
+              type: 'user'
         if @state.subData isnt ''
           div
             className: "#{@state.subDataClass}"

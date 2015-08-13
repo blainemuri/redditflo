@@ -49,6 +49,7 @@ Homepage = React.createClass
           React.createElement Feed,
             data: data
             onUrl: @props.onUrl
-      @renderNavigation()
+      if feed.length > 0
+        @renderNavigation()
 module.exports =
   Homepage: Homepage

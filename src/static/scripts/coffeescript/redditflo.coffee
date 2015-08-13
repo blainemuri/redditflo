@@ -22,8 +22,10 @@ DEFAULT_STATE =
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
-    limit: 100
+    limit: 10
     shownFeedSize: 50
+    sortBy: 'score' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
+    sortOrder: -1 # 1: ascending, -1 descending
   subscriptions: []
   token: ''
   username: ''
@@ -101,7 +103,7 @@ App = React.createClass
     keys = Object.keys @state.feeds
     feeds = keys.map (k) => @state.feeds[k].feed
     feeds = _.flatten feeds, true
-    feeds = _.sortBy feeds, (f) -> -f.data.created_utc
+    feeds = _.sortBy feeds, (f) => @state.settings.sortOrder * f.data[@state.settings.sortBy]
     @setState mainFeed: feeds
 
   logout: ->

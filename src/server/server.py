@@ -116,18 +116,13 @@ def vote():
     global access_token, username, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, r
     sub_id = request.args.get('sub_id')[3:]
     vote = request.args.get('vote')
-    print(sub_id)
     r = praw.Reddit('Redditflo upvoting app')
     r.set_oauth_app_info(client_id=CLIENT_ID,
                          client_secret=CLIENT_SECRET,
                          redirect_uri=REDIRECT_URI)
-    print("blah")
     r.set_access_credentials(**{'scope': {'identity', 'vote'}, 'access_token': access_token})
-    print("blah")
     post = r.get_submission(submission_id=sub_id)
-    print('before vote')
     post.vote(direction=vote)
-    print('after vote')
     return json.dumps({"hello": "hello"})
 
 @app.route('/reset_token')

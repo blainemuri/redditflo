@@ -1,6 +1,9 @@
 React = require('react')
 $ = require('jquery')
 Dropzone = require('dropzone')
+reddit = require('redditflo/reddit')
+
+{SubscriptionInfo} = require('redditflo/subscription_info')
 
 Uploader = React.createClass
   getInitialState: ->
@@ -27,23 +30,33 @@ Uploader = React.createClass
             src: "#{@state.src}"
 
 Subscription = React.createClass
+  getInitialState: ->
+    showInfo: no
+
   deleteSubscription: ->
     newSubs = []
     @props.subs.map (sub) =>
       if sub.name isnt @props.name or sub.type isnt @props.type then newSubs.push sub
     @props.setSubs newSubs
 
+  toggleShowInfo: ->
+    @setState showInfo: not @state.showInfo
+
   render: ->
     {div, img} = React.DOM
     div {},
       div className: 'subscription-container',
-        div className: 'sub-name', "@#{@props.name}"
+        div className: 'sub-name', onClick: @toggleShowInfo, "@#{@props.name}"
         div
           className: 'sub-x'
           onClick: => @deleteSubscription()
           img
             className: 'cancel-icon'
             src: 'images/cancel.png'
+      if @state.showInfo
+        React.createElement SubscriptionInfo,
+          name: @props.name
+          type: @props.type
 
 MainContent = React.createClass
   render: ->
