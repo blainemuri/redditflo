@@ -1,6 +1,7 @@
 marked = require('marked')
 Entities = require('html-entities').AllHtmlEntities
 React = require('react')
+Python = require('redditflo/python')
 
 {Webview} = require('redditflo/webview')
 
@@ -26,10 +27,14 @@ getInfo = (data) ->
 Feed = React.createClass
   getInitialState: ->
     expanded: ''
+    currentVote: 0
+
+  sendDownvote: -> Python.updateVote('blah', -1)
 
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
+    console.log info
 
     span {},
       div
@@ -45,7 +50,10 @@ Feed = React.createClass
             button
               className: 'arrow-button'
               onClick: (=> @setState expanded: if @state.expanded is 'red' then '' else 'red'),
-              img className: 'down-arrow', src: 'images/reddit-alien.png'
+              img
+                className: 'down-arrow'
+                src: 'images/reddit-alien.png'
+                onClick: @sendDownvote
         div className: 'content', onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
           div {},
             span dangerouslySetInnerHTML: __html: info.title

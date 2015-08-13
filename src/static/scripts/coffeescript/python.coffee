@@ -38,3 +38,9 @@ module.exports =
       {subscriptions: JSON.stringify(subscriptions)},
       (->),
       'json'
+
+  updateVote: (sub_id, vote) ->
+    $.get "#{PREFIX}/vote",
+      {"sub_id": sub_id, "vote": vote},
+      (->),
+      'json'

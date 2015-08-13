@@ -50,16 +50,6 @@ def make_authorization_url():
     return url
 
 def get_token(code):
-    # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    # r = praw.Reddit('Redditflo upvoting app to help users follow other users')
-    # r.set_oauth_app_info(client_id=CLIENT_ID,
-    #                      client_secret=CLIENT_SECRET,
-    #                      redirect_uri=REDIRECT_URI)
-    # access_information = r.get_access_information(code)
-    # print(**access_information)
     client_auth = requests.auth.HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
     post_data = {"grant_type": "authorization_code",
                  "code": code,
@@ -121,28 +111,20 @@ def route_username():
         username = me_json['name']
     return json.dumps({'username': username})
 
-@app.route('/upvote')
-def upvote():
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    print('##################################################################################')
+@app.route('/vote')
+def vote():
     global access_token, username, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, r
+    sub_id = request.args.get('submission_id')
+    vote = requests.args.get('vote')
+    print(sub_id)
+    print(vote)
     r = praw.Reddit('Redditflo upvoting app')
     r.set_oauth_app_info(client_id=CLIENT_ID,
                          client_secret=CLIENT_SECRET,
                          redirect_uri=REDIRECT_URI)
     r.set_access_credentials(**{'scope': {'identity', 'vote'}, 'access_token': access_token})
-    post = r.get_submission(submission_id='3gu6pa')
-    post.upvote()
-    print(r.has_scope('vote'))
-    #response = post.upvote()
-    #print(response)
-    #post.upvote()
-    # if access_token != '':
-    #     headers = base_headers()
-    #     headers.update({"Authorization": "bearer" + access_token, "dir": "1", "id": "t3_3gqgum"})
-    #     response = requests.post("https://oath.reddit.com/api/vote", headers=headers, dir=1)
-    #     me_json = response.json()
-    #     print(me_json)
+    post = r.get_submission(submission_id=sub_id)
+    post.vote(direction=vote)
     return json.dumps({"hello": "hello"})
 
 @app.route('/reset_token')
