@@ -25,17 +25,15 @@ getInfo = (data) ->
 
 Feed = React.createClass
   getInitialState: ->
-    expanded: no
-
-  onClick: ->
-    @setState expanded: not @state.expanded
+    expanded: ''
 
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
 
     span {},
-      div className: "feed-item #{info.color}", onClick: @onClick,
+      div
+        className: "feed-item #{info.color}"
         div className: 'arrows',
           div {},
             button className: 'arrow-button',
@@ -43,16 +41,25 @@ Feed = React.createClass
           div {},
             button className: 'arrow-button',
               img className: 'down-arrow', src: 'images/arrowdown.png'
-        div className: 'content',
+          div {},
+            button
+              className: 'arrow-button'
+              onClick: (=> @setState expanded: if @state.expanded is 'red' then '' else 'red'),
+              img className: 'down-arrow', src: 'images/reddit-alien.png'
+        div className: 'content', onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
           div {},
             span dangerouslySetInnerHTML: __html: info.title
             span className: 'author', "  Author: #{info.author}"
           div className: 'no-click', dangerouslySetInnerHTML: __html: info.content
           if info.thumbnail isnt '' and info.thumbnail isnt 'self'
             div {}, img src: info.thumbnail
-      if @state.expanded
+      if @state.expanded is 'ext'
         React.createElement Webview,
           src: info.url
+          style: "display:inline-block; width:100%; height:480px"
+      else if @state.expanded is 'red'
+        React.createElement Webview,
+          src: info.redditLink
           style: "display:inline-block; width:100%; height:480px"
 
 
