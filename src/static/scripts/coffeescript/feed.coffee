@@ -29,30 +29,44 @@ Feed = React.createClass
     expanded: ''
     currentVote: 0
 
-  sendDownvote: -> Python.updateVote('blah', -1)
+  sendDownvote: (id) ->
+    if @state.currentVote is 0 or @state.currentVote is 1
+      Python.updateVote(id, '-1')
+      @setState currentVote: -1
+    else
+      Python.updateVote(id, '0')
+      @setState currentVote: 0
+
+  sendUpvote: (id) ->
+    if @state.currentVote is 0 or @state.currentVote is -1
+      Python.updateVote(id, '1')
+      @setState currentVote: 1
+    else
+      Python.updateVote(id, '0')
+      @setState currentVote: 0
 
   render: ->
     {button, div, span, img} = React.DOM
     info = getInfo @props.data
-    console.log info
 
     span {},
       div className: "feed-item #{info.color}",
         div className: 'arrows',
           div {},
-            button className: 'arrow-button',
+            button
+              className: "arrow-button #{'pressed' if @state.currentVote is 1}"
+              onClick: => @sendUpvote info.id
               img className: 'up-arrow', src: 'images/arrow.png'
           div {},
-            button className: 'arrow-button',
+            button
+              className: "arrow-button #{'pressed' if @state.currentVote is -1}"
+              onClick: => @sendDownvote info.id
               img className: 'down-arrow', src: 'images/arrowdown.png'
           div {},
             button
               className: 'arrow-button'
               onClick: (=> @setState expanded: if @state.expanded is 'red' then '' else 'red'),
-              img
-                className: 'down-arrow'
-                src: 'images/reddit-alien.png'
-                onClick: @sendDownvote
+              img className: 'down-arrow', src: 'images/reddit-alien.png'
         div className: 'content', onClick: (=> @setState expanded: if @state.expanded is 'ext' then '' else 'ext'),
           div {},
             span dangerouslySetInnerHTML: __html: info.title
