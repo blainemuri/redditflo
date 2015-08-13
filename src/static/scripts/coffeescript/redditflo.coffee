@@ -22,7 +22,8 @@ DEFAULT_STATE =
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
-    limit: 10
+    limit: 100
+    showFeedSize: 50
   subscriptions: []
   token: ''
   username: ''
@@ -33,7 +34,7 @@ App = React.createClass
 
   componentDidMount: ->
     loginIntervalId = setInterval @onIntervalLogin, 1000
-    setTimeout @onIntervalUpdateFeed, 2000
+    setTimeout @onIntervalUpdateFeed, @state.refreshTime
     @setState intervalIds:
       login: loginIntervalId
 
@@ -57,10 +58,7 @@ App = React.createClass
       subs = subs.map (key) => @state.feeds[key]
       @fetchFeeds subs
       @reloadMainFeed()
-      if lastUpdated is 0
-        setTimeout @onIntervalUpdateFeed, 2000
-      else
-        setTimeout @onIntervalUpdateFeed, 10000
+      setTimeout @onIntervalUpdateFeed, if lastUpdated is 0 then 2000 else 5000
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates
@@ -122,6 +120,7 @@ App = React.createClass
         if @state.currentPage is 'homepage'
           React.createElement Homepage,
             feed: @state.mainFeed
+            nShown: @state.settings.shownFeedSize
             onUrl: (url) -> windows.setReddit url
         else if @state.currentPage is 'subscriptions'
           React.createElement(Subscriptions, setSubscriptions: @setSubscriptions, sub: @state.subscriptions)

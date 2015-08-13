@@ -32,8 +32,7 @@ Feed = React.createClass
     info = getInfo @props.data
 
     span {},
-      div
-        className: "feed-item #{info.color}"
+      div className: "feed-item #{info.color}",
         div className: 'arrows',
           div {},
             button className: 'arrow-button',
