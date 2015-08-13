@@ -1,6 +1,8 @@
 React = require('react')
 $ = require('jquery')
 Dropzone = require('dropzone')
+reddit = require('redditflo/reddit')
+_ = require('underscore')
 
 Uploader = React.createClass
   getInitialState: ->
@@ -26,24 +28,65 @@ Uploader = React.createClass
             className: 'dropzone-inner'
             src: "#{@state.src}"
 
+SubscriptionInfo = React.createClass
+  getInitialState: ->
+    submissions: []
+    comments: []
+
+  getParticipation: ->
+    participations = @state.submissions.concat @state.comments
+    subredditCounts = participations.reduce ((a, b) -> b = b.subreddit; a[b] = (a[b] or 0) + 1; a), {}
+    subredditCounts = Object.keys(subredditCounts).map (k) -> [k, subredditCounts[k]]
+    subredditCounts = _.sortBy subredditCounts, ([k, v]) -> -v
+    subredditCounts.map ([key, value]) -> "#{key}: #{value}"
+      .slice(0, 3)
+
+  getStats: ->
+    if @props.type is 'user'
+      @getParticipation()
+    else
+      []
+
+  componentDidMount: ->
+    if @props.type is 'user'
+      reddit.getUserComments @props.name, limit: 50, (data) =>
+        @setState comments: data.map (x) -> x.data
+      reddit.getUserSubmissions @props.name, limit: 50, (data) =>
+        @setState submissions: data.map (x) -> x.data
+
+  render: ->
+    {div} = React.DOM
+    div key: "#{@props.name}-#{@props.type}",
+      @getStats().map (x) -> div {}, x
+
 Subscription = React.createClass
+  getInitialState: ->
+    showInfo: no
+
   deleteSubscription: ->
     newSubs = []
     @props.subs.map (sub) =>
       if sub.name isnt @props.name or sub.type isnt @props.type then newSubs.push sub
     @props.setSubs newSubs
 
+  toggleShowInfo: ->
+    @setState showInfo: not @state.showInfo
+
   render: ->
     {div, img} = React.DOM
     div {},
       div className: 'subscription-container',
-        div className: 'sub-name', "@#{@props.name}"
+        div className: 'sub-name', onClick: @toggleShowInfo, "@#{@props.name}"
         div
           className: 'sub-x'
           onClick: => @deleteSubscription()
           img
             className: 'cancel-icon'
             src: 'images/cancel.png'
+      if @state.showInfo
+        React.createElement SubscriptionInfo,
+          name: @props.name
+          type: @props.type
 
 MainContent = React.createClass
   render: ->
