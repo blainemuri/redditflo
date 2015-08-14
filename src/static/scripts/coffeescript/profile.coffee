@@ -33,7 +33,8 @@ Subscription = React.createClass
   getInitialState: ->
     showInfo: no
 
-  deleteSubscription: ->
+  deleteSubscription: (e) ->
+    e.stopPropagation()
     newSubs = []
     @props.subs.map (sub) =>
       if sub.name isnt @props.name or sub.type isnt @props.type then newSubs.push sub
@@ -45,11 +46,11 @@ Subscription = React.createClass
   render: ->
     {div, img} = React.DOM
     div {},
-      div className: 'subscription-container',
-        div className: 'sub-name', onClick: @toggleShowInfo, "#{if @props.type is 'subreddit' then '/r/' else '@'}#{@props.name}"
+      div className: 'subscription-container', onClick: @toggleShowInfo,
+        div className: 'sub-name', "#{if @props.type is 'subreddit' then '/r/' else '@'}#{@props.name}"
         div
           className: 'sub-x'
-          onClick: => @deleteSubscription()
+          onClick: (e) => @deleteSubscription e
           img
             className: 'cancel-icon'
             src: 'images/cancel.png'

@@ -1,11 +1,15 @@
 React = require('react')
 _ = require('underscore')
 
+NO_SHOW = 0
+DONE = 1
+
 reddit = require('redditflo/reddit')
 
 SubscriptionInfo = React.createClass
   getInitialState: ->
     participations: []
+    show: NO_SHOW
 
   componentDidMount: ->
     @loadInfo @props.name, @props.type
@@ -14,6 +18,7 @@ SubscriptionInfo = React.createClass
     if @props.name isnt nextProps.name or @props.type isnt nextProps.type
       @setState participations: []
       @loadInfo nextProps.name, nextProps.type
+    setTimeout (=> @setState show: DONE), 1000
 
   loadInfo: (name, type) ->
     fetcher = if type is 'user' then reddit.getUser else reddit.getSubreddit
@@ -33,17 +38,28 @@ SubscriptionInfo = React.createClass
       "Active On: #{subredditCounts.join(', ')}"
 
   render: ->
-    {div} = React.DOM
-    div className: 'subscription-info', key: "#{@props.name}-#{@props.type}",
-      @renderActiveSubreddits()
-      @state.participations.slice(0, 3).map (p) =>
-        type = if p.name.slice(0, 2) is 't1' then 'comment' else 'post'
-        title = if p.title? then p.title else p.link_title
-        content = if type is 'comment' then p.body else p.selftext
-        div className: "subscription-info-section-#{@props.type}",
-          div className: 'title-text', title
-          div className: 'body-text', content
-
+    {div, img} = React.DOM
+    div {},
+      if @state.show is DONE
+        div className: 'subscription-info', key: "#{@props.name}-#{@props.type}",
+          @renderActiveSubreddits()
+          if @state.participations.length > 0
+            @state.participations.slice(0, 3).map (p) =>
+              type = if p.name.slice(0, 2) is 't1' then 'comment' else 'post'
+              title = if p.title? then p.title else p.link_title
+              content = if type is 'comment' then p.body else p.selftext
+              div className: "subscription-info-section-#{@props.type}",
+                div className: 'title-text', title
+                div className: 'body-text', content
+          else
+            div className: 'subscription-info-section',
+              div className: 'title-text', 'No Content!'
+              div className: 'body-text', "User doesn't seem to be active :/"
+      else
+        div className: 'subscription-info loading-subscription',
+          img
+            className: 'loading-small'
+            src: 'images/loading.gif'
 
 module.exports =
   SubscriptionInfo: SubscriptionInfo

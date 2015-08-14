@@ -100,8 +100,8 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 
 .container
   padding-top space-x-large
-  margin-left space * 10
-  margin-right space * 10
+  padding-left space * 10
+  padding-right space * 10
   min-width 550px
 
 .logo
@@ -409,9 +409,11 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 .subscription-container
   height space*3
   border-bottom 1px solid light-gray
+  border-top 1px solid light-gray
   line-height space*3
   vertical-align middle
   padding-left space
+  cursor pointer
 
 .sub-name
   float left
@@ -493,3 +495,12 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
   &:focus
     border-bottom 1px solid primary-color
     outline none
+
+.subscription-info.loading-subscription
+  width 100%
+  horizontal-align middle
+
+.loading-small
+  height space*10
+  margin - space*3
+  margin-left space*7
