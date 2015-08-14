@@ -24,50 +24,52 @@ Content = React.createClass
     @setState searchString: event.target.value
 
   handleSubmit: (event) ->
-    @setState searched: yes
-    sub = @state.searchString
-    user = @state.searchString
-    @setState
-      searched: yes
-      subData: ''
-      subDataClass: ''
-      userData: ''
-      userDataClass: ''
-    reddit.getUser @state.searchString, {}, (data) =>
+    @setState searched: no
+    setTimeout (=>
+      @setState searched: yes
+      sub = @state.searchString
       user = @state.searchString
-      setTimeout( =>
-        if data is 'RETRIEVAL ERROR'
-          @setState
-            userData: ''
-            userDataClass: 'user-error card-error'
-        else if @newUser user
-          @setState
-            userData: "follow @#{user}"
-            user: user
-            userDataClass: 'user-info card-blue'
-        else
-          @setState
-            userData: "following @#{user}"
-            user: user
-            userDataClass: 'user-info card-success'
-      , 0)
-    reddit.getSubreddit @state.searchString, {}, (data) =>
-      setTimeout( =>
-        if data is 'RETRIEVAL ERROR' or data.children.length is 0 or sub is ''
-          @setState
-           subData: ''
-           subDataClass: 'user-error card-error'
-        else if @newSub sub
-          @setState
-            subData: "follow /r/#{sub}"
-            sub: sub
-            subDataClass: 'user-info card-orange'
-        else
-          @setState
-            subData: "following /r/#{sub}"
-            sub: sub
-            subDataClass: 'user-info card-success'
-      , 0)
+      @setState
+        searched: yes
+        subData: ''
+        subDataClass: ''
+        userData: ''
+        userDataClass: ''
+      reddit.getUser @state.searchString, {}, (data) =>
+        user = @state.searchString
+        setTimeout( =>
+          if data is 'RETRIEVAL ERROR'
+            @setState
+              userData: ''
+              userDataClass: 'user-error card-error'
+          else if @newUser user
+            @setState
+              userData: "follow @#{user}"
+              user: user
+              userDataClass: 'user-info card-blue'
+          else
+            @setState
+              userData: "following @#{user}"
+              user: user
+              userDataClass: 'user-info card-success'
+        , 0)
+      reddit.getSubreddit @state.searchString, {}, (data) =>
+        setTimeout( =>
+          if data is 'RETRIEVAL ERROR' or data.children.length is 0 or sub is ''
+            @setState
+             subData: ''
+             subDataClass: 'user-error card-error'
+          else if @newSub sub
+            @setState
+              subData: "follow /r/#{sub}"
+              sub: sub
+              subDataClass: 'user-info card-orange'
+          else
+            @setState
+              subData: "following /r/#{sub}"
+              sub: sub
+              subDataClass: 'user-info card-success'
+        , 0)), 500)
 
   submitUser: ->
     @props.sub.push { "name": "#{@state.user}", "type": "user" }
