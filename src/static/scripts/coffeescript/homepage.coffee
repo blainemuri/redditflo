@@ -6,11 +6,15 @@ Python = require('redditflo/python')
 {Loading} = require('redditflo/loading')
 
 User = React.createClass
+  setAuthor: ->
+    @props.setUser @props.user.name
+    @props.hide()
+
   render: ->
     {div} = React.DOM
     div
       className: 'user-sort-item'
-      onClick: (=> @props.setUser @props.user.name)
+      onClick: => @setAuthor()
       "@#{@props.user.name}"
 
 Homepage = React.createClass
@@ -118,6 +122,7 @@ Homepage = React.createClass
                   setUser: (val) =>
                     @setState start: 0
                     @setState userFilter: val
+                  hide: @hide
                 React.createElement(User, params) if user.name[...@state.search.length] is @state.search
         feed.filter (feed) => (@state.userFilter is '' or feed.data.author is @state.userFilter)
           .slice(start, end).map (data) =>
