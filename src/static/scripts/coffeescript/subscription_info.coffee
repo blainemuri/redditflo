@@ -8,8 +8,16 @@ SubscriptionInfo = React.createClass
     participations: []
 
   componentDidMount: ->
-    fetcher = if @props.type is 'user' then reddit.getUser else reddit.getSubreddit
-    fetcher @props.name, limit: 100, (data) =>
+    @loadInfo @props.name, @props.type
+
+  componentWillReceiveProps: (nextProps) ->
+    if @props.name isnt nextProps.name and @props.type isnt nextProps.type
+      @setState participations: []
+      @loadInfo nextProps.name, nextProps.type
+
+  loadInfo: (name, type) ->
+    fetcher = if type is 'user' then reddit.getUser else reddit.getSubreddit
+    fetcher name, limit: 100, (data) =>
       participations = if data.children? then data.children else []
       @setState participations: _.sortBy (participations.map (x) -> x.data), (x) -> -x.score
 
