@@ -18,17 +18,21 @@ DEFAULT_STATE =
   mainFeed: []
   intervalIds:
     login: 0
+    updateFeed: 0
   settings:
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
     enableAccountUpdates: no
     limit: 10
     shownFeedSize: 50
-    sortBy: 'score' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
-    sortOrder: -1 # 1: ascending, -1 descending
+    sortBy: 'author' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
+    sortAscending: no
   subscriptions: []
   token: ''
   username: ''
+
+loginTick = 0
+updateFeedTick = 0
 
 App = React.createClass
   getInitialState: ->
@@ -36,14 +40,23 @@ App = React.createClass
 
   componentDidMount: ->
     loginIntervalId = setInterval @onIntervalLogin, 1000
-    setTimeout @onIntervalUpdateFeed, @state.refreshTime
+    updateFeedId = setInterval @onIntervalUpdateFeed, 2000
     @setState intervalIds:
       login: loginIntervalId
+      updateFeed: updateFeedId
 
-  setSortingMethod: (sort) ->
+  setSortingMethod: (sort, ascending=false) ->
     settings = @state.settings
     settings.sortBy = sort
-    @setState settings: settings
+    settings.ascending = ascending
+    @setState
+      settings: settings
+      mainFeed: @getSortedFeed @state.mainFeed, settings
+
+  getSortedFeed: (feed, settings) ->
+    settings = if settings? then settings else @state.settings
+    feed = _.sortBy feed, (el) => el.data[settings.sortBy]
+    if settings.sortAscending then feed else feed.reverse()
 
   onIntervalLogin: ->
     currentToken = @state.token
@@ -56,16 +69,17 @@ App = React.createClass
       Python.getSubscriptions (data) =>
         if data.subscriptions?
           @setSubscriptions data.subscriptions
+    loginTick += 1
 
   onIntervalUpdateFeed: ->
-    if @state.settings.autoRefreshEnabled
-      subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
-      lastUpdated = if subs.length is 0 then 0 else @state.feeds[subs[0]].updated
-      subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
-      subs = subs.map (key) => @state.feeds[key]
-      @fetchFeeds subs
-      @reloadMainFeed()
-    setTimeout @onIntervalUpdateFeed, if lastUpdated is 0 then 2000 else 5000
+    feeds = @state.feeds
+    if @state.settings.autoRefreshEnabled and Object.keys(feeds).length > 0
+      lastUpdated = (_.min feeds, (feed) -> feed.updated).updated
+      if (lastUpdated is 0) or (updateFeedTick%10 is 0)
+        subs = _.sortBy feeds, 'updated'
+          .slice 0, @state.settings.autoRefreshBatchSize
+        @fetchFeeds subs
+    updateFeedTick += 1
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates
@@ -93,6 +107,7 @@ App = React.createClass
           feed.updated = Date.now()
           feeds[key] = feed
           @setState feeds: feeds
+          setTimeout @reloadMainFeed, 500
       else if sub.type is 'subreddit'
         reddit.getSubredditSubmissions sub.name, {limit: @state.settings.limit}, (data) =>
           key = "#{sub.name}_#{sub.type}"
@@ -103,13 +118,13 @@ App = React.createClass
           feed.updated = Date.now()
           feeds[key] = feed
           @setState feeds: feeds
+          setTimeout @reloadMainFeed, 500
 
   reloadMainFeed: ->
     keys = Object.keys @state.feeds
     feeds = keys.map (k) => @state.feeds[k].feed
     feeds = _.flatten feeds, true
-    feeds = _.sortBy feeds, (f) => @state.settings.sortOrder * f.data[@state.settings.sortBy]
-    @setState mainFeed: feeds
+    @setState mainFeed: @getSortedFeed feeds
 
   logout: ->
     Python.resetToken()
