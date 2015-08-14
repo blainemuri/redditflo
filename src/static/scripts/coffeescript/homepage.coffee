@@ -23,7 +23,8 @@ Homepage = React.createClass
     window.scroll(window.scrollX, 0)
 
   onClickNext: ->
-    start = Math.min @props.feed.length-@props.nShown, @state.start+@props.nShown
+    n = @props.feed.filter(=> (not @props.authorFilter?) or (feed.data.data is @props.authorFilter)).length
+    start = Math.min n-@props.nShown, @state.start+@props.nShown
     @setState start: start
     window.scroll(window.scrollX, 0)
 
@@ -101,11 +102,12 @@ Homepage = React.createClass
             div className: 'dynamic-items',
               @props.users.map (user) =>
                 React.createElement(User, user: user) if user.name[...@state.search.length] is @state.search
-        feed.slice(start, end).map (data) =>
-          span key: data.data.name,
-            React.createElement Feed,
-              data: data
-              notLoading: @notLoading
+        feed.filter (feed) => (not @props.authorFilter?) or (feed.data.data is @props.authorFilter)
+          .slice(start, end).map (data) =>
+            span key: data.data.name,
+              React.createElement Feed,
+                data: data
+                notLoading: @notLoading
         if feed.length > 0
           @renderNavigation()
 
