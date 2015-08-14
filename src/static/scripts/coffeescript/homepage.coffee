@@ -117,7 +117,7 @@ Homepage = React.createClass
                     @setState start: 0
                     @setState userFilter: val
                 React.createElement(User, params) if user.name[...@state.search.length] is @state.search
-        feed.filter (feed) => (not @state.users or @state.userFilter is '' or feed.data.author is @state.userFilter)
+        feed.filter (feed) => (@state.userFilter is '' or feed.data.author is @state.userFilter)
           .slice(start, end).map (data) =>
             span key: data.data.name,
               React.createElement Feed,
