@@ -8,7 +8,10 @@ Python = require('redditflo/python')
 User = React.createClass
   render: ->
     {div} = React.DOM
-    div className: 'user-sort-item', "@#{@props.user.name}"
+    div
+      className: 'user-sort-item'
+      onClick: (=> @props.setUser @props.user.name)
+      "@#{@props.user.name}"
 
 Homepage = React.createClass
   getInitialState: ->
@@ -16,6 +19,7 @@ Homepage = React.createClass
     loading: yes
     users: no
     search: ''
+    userFilter: ''
 
   onClickPrevious: ->
     start = Math.max 0, @state.start-@props.nShown
@@ -97,15 +101,23 @@ Homepage = React.createClass
             className: 'user-sort'
             onClick: (e) => e.stopPropagation()
             div className: 'static-items',
-              div className: 'user-sort-item', 'All'
+              div
+                className: 'user-sort-item'
+                onClick: => @setState userFilter: ''
+                'All'
               input
                 className: 'user-sort-input'
                 placeholder: 'Search'
                 onChange: (e) => @setSearch e
             div className: 'dynamic-items',
               @props.users.map (user) =>
-                React.createElement(User, user: user) if user.name[...@state.search.length] is @state.search
-        feed.filter (feed) => (not @props.authorFilter?) or (feed.data.data is @props.authorFilter)
+                params =
+                  user: user
+                  setUser: (val) =>
+                    @setState start: 0
+                    @setState userFilter: val
+                React.createElement(User, params) if user.name[...@state.search.length] is @state.search
+        feed.filter (feed) => (not @state.users or @state.userFilter is '' or feed.data.author is @state.userFilter)
           .slice(start, end).map (data) =>
             span key: data.data.name,
               React.createElement Feed,
