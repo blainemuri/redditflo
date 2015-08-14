@@ -24,54 +24,66 @@ Content = React.createClass
     @setState searchString: event.target.value
 
   handleSubmit: (event) ->
-    @setState searched: yes
-    sub = @state.searchString
-    user = @state.searchString
-    @setState subData: ''
-    @setState subDataClass: ''
-    @setState userData: ''
-    @setState userDataClass: ''
-    reddit.getUser @state.searchString, {}, (data) =>
+    @setState searched: no
+    setTimeout (=>
+      @setState searched: yes
+      sub = @state.searchString
       user = @state.searchString
-      setTimeout( =>
-        if data is 'RETRIEVAL ERROR'
-          @setState userData: ''
-          @setState userDataClass: 'user-error card-error'
-        else if @newUser user
-          @setState userData: "follow @#{user}"
-          @setState user: user
-          @setState userDataClass: 'user-info card-blue'
-        else
-          @setState userData: "following @#{user}"
-          @setState user: user
-          @setState userDataClass: 'user-info card-success'
-      , 0)
-    reddit.getSubreddit @state.searchString, {}, (data) =>
-      setTimeout( =>
-        if data is 'RETRIEVAL ERROR' or data.children.length is 0 or sub is ''
-          @setState subData: ''
-          @setState subDataClass: 'user-error card-error'
-        else if @newSub sub
-          @setState subData: "follow /r/#{sub}"
-          @setState sub: sub
-          @setState subDataClass: 'user-info card-orange'
-        else
-          @setState subData: "following /r/#{sub}"
-          @setState sub: sub
-          @setState subDataClass: 'user-info card-success'
-      , 0)
+      @setState
+        searched: yes
+        subData: ''
+        subDataClass: ''
+        userData: ''
+        userDataClass: ''
+      reddit.getUser @state.searchString, {}, (data) =>
+        user = @state.searchString
+        setTimeout( =>
+          if data is 'RETRIEVAL ERROR'
+            @setState
+              userData: ''
+              userDataClass: 'user-error card-error'
+          else if @newUser user
+            @setState
+              userData: "follow @#{user}"
+              user: user
+              userDataClass: 'user-info card-blue'
+          else
+            @setState
+              userData: "following @#{user}"
+              user: user
+              userDataClass: 'user-info card-success'
+        , 0)
+      reddit.getSubreddit @state.searchString, {}, (data) =>
+        setTimeout( =>
+          if data is 'RETRIEVAL ERROR' or data.children.length is 0 or sub is ''
+            @setState
+             subData: ''
+             subDataClass: 'user-error card-error'
+          else if @newSub sub
+            @setState
+              subData: "follow /r/#{sub}"
+              sub: sub
+              subDataClass: 'user-info card-orange'
+          else
+            @setState
+              subData: "following /r/#{sub}"
+              sub: sub
+              subDataClass: 'user-info card-success'
+        , 0)), 500
 
   submitUser: ->
     @props.sub.push { "name": "#{@state.user}", "type": "user" }
     @props.setSubscriptions @props.sub
-    @setState userDataClass: 'user-info card-success'
-    @setState userData: "following @#{@state.user}"
+    @setState
+      userDataClass: 'user-info card-success'
+      userData: "following @#{@state.user}"
 
   submitSub: ->
     @props.sub.push { "name": "#{@state.user}", "type": "subreddit" }
     @props.setSubscriptions @props.sub
-    @setState subDataClass: 'user-info card-success'
-    @setState subData: "following /r/#{@state.user}"
+    @setState
+      subDataClass: 'user-info card-success'
+      subData: "following /r/#{@state.user}"
 
   #Refactor these two together later
   newUser: (currUser) ->
@@ -120,6 +132,9 @@ Content = React.createClass
             className: "#{@state.subDataClass}"
             onClick: => @submitSub() if @newSub(@state.user)
             @state.subData
+            React.createElement SubscriptionInfo,
+              name: @state.sub
+              type: 'subreddit'
         if @state.userData is '' and @state.subData is '' and @state.searched
           div
             className: "#{@state.userDataClass}"

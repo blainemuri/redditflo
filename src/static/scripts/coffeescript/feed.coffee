@@ -88,11 +88,11 @@ Feed = React.createClass
       if @state.expanded is 'ext'
         React.createElement Webview,
           src: info.url
-          style: "display:inline-block; width:100%; height:480px"
+          style: "display:inline-block; width:100%; max-height:480px"
       else if @state.expanded is 'red'
         React.createElement Webview,
           src: info.redditLink
-          style: "display:inline-block; width:100%; height:480px"
+          style: "display:inline-block; width:100%; max-height:480px"
 
 
 module.exports =

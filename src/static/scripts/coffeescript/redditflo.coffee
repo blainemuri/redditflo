@@ -22,9 +22,9 @@ DEFAULT_STATE =
   settings:
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
-    enableAccountUpdates: no
-    limit: 20
-    shownFeedSize: 50
+    enableAccountUpdates: yes
+    limit: 50
+    shownFeedSize: 20
     sortBy: 'score' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
     sortAscending: no
   subscriptions: []

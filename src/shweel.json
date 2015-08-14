@@ -17,12 +17,12 @@
             "type": "user"
         },
         {
-          "name": "funny",
-          "type": "subreddit"
+            "name": "funny",
+            "type": "subreddit"
         },
         {
-          "name": "LanguageTechnology",
-          "type": "subreddit"
+            "name": "LanguageTechnology",
+            "type": "subreddit"
         }
     ]
 }
