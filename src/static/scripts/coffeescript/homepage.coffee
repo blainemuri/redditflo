@@ -68,6 +68,10 @@ Homepage = React.createClass
               className: "sort-button #{'focus' if @props.focus is 'downs'}"
               onClick: => @handleSort 'downs'
               'downs'
+            button
+              className: "sort-button #{'focus' if @props.focus is 'author'}"
+              onClick: => @handleSort 'author'
+              'author'
         feed.slice(start, end).map (data) =>
           span key: data.data.name,
             React.createElement Feed,

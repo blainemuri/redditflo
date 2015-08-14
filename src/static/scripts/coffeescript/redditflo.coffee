@@ -25,7 +25,7 @@ DEFAULT_STATE =
     enableAccountUpdates: no
     limit: 10
     shownFeedSize: 50
-    sortBy: 'author' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
+    sortBy: 'score' # 'author', 'created_utc', 'score', 'ups', 'downs', #note: downs doesn't work
     sortAscending: no
   subscriptions: []
   token: ''
