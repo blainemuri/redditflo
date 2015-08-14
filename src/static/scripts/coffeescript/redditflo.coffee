@@ -18,6 +18,7 @@ DEFAULT_STATE =
   mainFeed: []
   intervalIds:
     login: 0
+    updateFeed: 0
   settings:
     autoRefreshBatchSize: 4
     autoRefreshEnabled: yes
@@ -30,20 +31,29 @@ DEFAULT_STATE =
   token: ''
   username: ''
 
+updateFeedTick = 0
+
 App = React.createClass
   getInitialState: ->
     DEFAULT_STATE
 
   componentDidMount: ->
     loginIntervalId = setInterval @onIntervalLogin, 1000
-    setTimeout @onIntervalUpdateFeed, @state.refreshTime
+    updateFeedId = setInterval @onIntervalUpdateFeed, 2000
     @setState intervalIds:
       login: loginIntervalId
+      updateFeed: updateFeedId
 
   setSortingMethod: (sort) ->
     settings = @state.settings
     settings.sortBy = sort
-    @setState settings: settings
+    @setState
+      settings: settings
+      mainFeed: @getSortedFeed @state.mainFeed, settings
+
+  getSortedFeed: (feed, settings) ->
+    settings = if settings? then settings else @state.settings
+    _.sortBy feed, (el) => settings.sortOrder * el.data[settings.sortBy]
 
   onIntervalLogin: ->
     currentToken = @state.token
@@ -61,11 +71,12 @@ App = React.createClass
     if @state.settings.autoRefreshEnabled
       subs = _.sortBy Object.keys(@state.feeds), (f) => @state.feeds[f].updated
       lastUpdated = if subs.length is 0 then 0 else @state.feeds[subs[0]].updated
-      subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
-      subs = subs.map (key) => @state.feeds[key]
-      @fetchFeeds subs
-      @reloadMainFeed()
-    setTimeout @onIntervalUpdateFeed, if lastUpdated is 0 then 2000 else 5000
+      if (lastUpdated is 0) or (updateFeedTick%10 is 0)
+        subs = subs.slice(0, @state.settings.autoRefreshBatchSize)
+        subs = subs.map (key) => @state.feeds[key]
+        @fetchFeeds subs
+        @reloadMainFeed()
+    updateFeedTick += 1
 
   setSubscriptions: (subscriptions) ->
     if @state.settings.enableAccountUpdates
@@ -108,8 +119,7 @@ App = React.createClass
     keys = Object.keys @state.feeds
     feeds = keys.map (k) => @state.feeds[k].feed
     feeds = _.flatten feeds, true
-    feeds = _.sortBy feeds, (f) => @state.settings.sortOrder * f.data[@state.settings.sortBy]
-    @setState mainFeed: feeds
+    @setState mainFeed: @getSortedFeed feeds
 
   logout: ->
     Python.resetToken()
