@@ -101,11 +101,12 @@ Homepage = React.createClass
               React.createElement(User, {})
               React.createElement(User, {})
               React.createElement(User, {})
-        feed.slice(start, end).map (data) =>
-          span key: data.data.name,
-            React.createElement Feed,
-              data: data
-              notLoading: @notLoading
+        feed.filter (feed) => (not @props.author?) or (feed.data.data is @props.author)
+          .slice(start, end).map (data) =>
+            span key: data.data.name,
+              React.createElement Feed,
+                data: data
+                notLoading: @notLoading
         if feed.length > 0
           @renderNavigation()
 
