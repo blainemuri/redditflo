@@ -85,7 +85,7 @@ def route_reddit_callback():
     code = request.args.get('code')
     access_token = get_token(code)
     # We'll change this next line in just a moment
-    return 'Authenticated'
+    return ''
 
 @app.route('/subscriptions')
 def route_subs():
