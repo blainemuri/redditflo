@@ -31,6 +31,8 @@ Feed = React.createClass
     expanded: ''
     currentVote: 0
 
+  componentDidMount: -> @props.notLoading()
+
   sendDownvote: (e, id) ->
     e.stopPropagation()
     if @state.currentVote is 0 or @state.currentVote is 1

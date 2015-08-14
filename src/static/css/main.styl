@@ -11,6 +11,7 @@ light-gray = #cfcfcf
 eggshell = #FEFEF2
 coral-red = #FF4040
 light-red = #FF7979
+medium-gray = #b3b3b3
 pastel-green = #77dd77
 
 space-micro = .25rem
@@ -431,3 +432,26 @@ input[type=text]:focus,input[type=password]:focus, textarea:focus {
 .webview
   margin-left space*2
   margin-right - space
+
+.loading-feed
+  width 100%
+  height 100%
+  color black
+  position fixed
+  color medium-gray
+  background-color light-gray
+  horizontal-align center
+  vertical-align middle
+  z-index 100000
+  padding-left: calc(50% - 200px);
+
+.loading-content
+  width 400px
+  margin-top space*8
+  horizontal-align center
+
+.loading-icon
+  margin-top - space*4
+
+.loading-text
+  margin-left 166px
