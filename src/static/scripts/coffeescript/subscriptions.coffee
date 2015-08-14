@@ -48,7 +48,7 @@ Content = React.createClass
       , 0)
     reddit.getSubreddit @state.searchString, {}, (data) =>
       setTimeout( =>
-        if data is 'RETRIEVAL ERROR' or data.length is 0 or sub is ''
+        if data is 'RETRIEVAL ERROR' or data.children.length is 0 or sub is ''
           @setState subData: ''
           @setState subDataClass: 'user-error card-error'
         else if @newSub sub

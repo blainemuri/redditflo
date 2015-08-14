@@ -27,14 +27,14 @@ module.exports =
 
   getUser: (username, parameters, callback) ->
     $.get("https://reddit.com/u/#{username}.json", parameters, 'json')
-      .done (data) =>
+      .done (data) ->
         callback data.data
       .fail (error) ->
         callback 'RETRIEVAL ERROR'
 
   getSubreddit: (subreddit, parameters, callback) ->
     $.get("https://reddit.com/r/#{subreddit}.json", parameters, 'json')
-      .done (data) =>
-        callback data.data.children
+      .done (data) ->
+        callback data.data
       .fail (error) ->
         callback 'RETRIEVAL ERROR'
