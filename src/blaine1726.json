@@ -13,12 +13,16 @@
             "type": "user"
         },
         {
-          "name": "btoxic",
-          "type": "user"
+            "name": "btoxic",
+            "type": "user"
         },
         {
-          "name": "nextlevelyoloswag",
-          "type": "user"
+            "name": "nextlevelyoloswag",
+            "type": "user"
+        },
+        {
+            "name": "blah",
+            "type": "subreddit"
         }
     ]
 }

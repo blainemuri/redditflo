@@ -56,7 +56,7 @@ SubscriptionInfo = React.createClass
               div className: 'title-text', 'No Content!'
               div className: 'body-text', "User doesn't seem to be active :/"
       else
-        div className: 'subscription-info loading-subscription',
+        div className: 'loading-subscription',
           img
             className: 'loading-small'
             src: 'images/loading.gif'
