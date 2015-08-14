@@ -51,7 +51,7 @@ Homepage = React.createClass
     e.stopPropagation()
     @setState search: ''
     @setState users: not @state.users
-    @handleSort 'author'
+    #@handleSort 'author'
 
   setSearch: (e) -> @setState search: e.target.value
 
