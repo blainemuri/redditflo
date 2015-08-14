@@ -38,7 +38,6 @@ Homepage = React.createClass
     @props.setSort sort
 
   notLoading: ->
-    console.log "in not loading"
     @setState loading: no
 
   render: ->
