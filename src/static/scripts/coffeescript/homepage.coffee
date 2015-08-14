@@ -8,13 +8,14 @@ Python = require('redditflo/python')
 User = React.createClass
   render: ->
     {div} = React.DOM
-    div className: 'user-sort-item', 'User'
+    div className: 'user-sort-item', "@#{@props.user.name}"
 
 Homepage = React.createClass
   getInitialState: ->
     start: 0
     loading: yes
     users: no
+    search: ''
 
   onClickPrevious: ->
     start = Math.max 0, @state.start-@props.nShown
@@ -49,6 +50,8 @@ Homepage = React.createClass
     e.stopPropagation()
     @setState users: not @state.users
     @handleSort 'author'
+
+  setSearch: (e) -> @setState search: e.target.value
 
   hide: -> @setState users: no
 
@@ -94,13 +97,10 @@ Homepage = React.createClass
               input
                 className: 'user-sort-input'
                 placeholder: 'Search'
+                onChange: (e) => @setSearch e
             div className: 'dynamic-items',
-              React.createElement(User, {})
-              React.createElement(User, {})
-              React.createElement(User, {})
-              React.createElement(User, {})
-              React.createElement(User, {})
-              React.createElement(User, {})
+              @props.users.map (user) =>
+                React.createElement(User, user: user) if user.name[...@state.search.length] is @state.search
         feed.slice(start, end).map (data) =>
           span key: data.data.name,
             React.createElement Feed,

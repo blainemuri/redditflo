@@ -142,6 +142,7 @@ App = React.createClass
         if @state.currentPage is 'homepage'
           React.createElement Homepage,
             feed: @state.mainFeed
+            users: @state.subscriptions.filter (sub) -> sub.type is 'user'
             setSort: @setSortingMethod
             focus: @state.settings.sortBy
             nShown: @state.settings.shownFeedSize
