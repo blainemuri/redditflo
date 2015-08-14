@@ -30,6 +30,7 @@ Feed = React.createClass
   getInitialState: ->
     expanded: ''
     currentVote: 0
+    scoreAdd: 0
 
   componentDidMount: -> @props.notLoading()
 
@@ -38,18 +39,22 @@ Feed = React.createClass
     if @state.currentVote is 0 or @state.currentVote is 1
       Python.updateVote(id, '-1')
       @setState currentVote: -1
+      @setState scoreAdd: -1
     else
       Python.updateVote(id, '0')
       @setState currentVote: 0
+      @setState scoreAdd: 0
 
   sendUpvote: (e, id) ->
     e.stopPropagation()
     if @state.currentVote is 0 or @state.currentVote is -1
       Python.updateVote(id, '1')
       @setState currentVote: 1
+      @setState scoreAdd: 1
     else
       Python.updateVote(id, '0')
       @setState currentVote: 0
+      @setState scoreAdd: 0
 
   reddit: (e) ->
     e.stopPropagation()
@@ -67,6 +72,8 @@ Feed = React.createClass
               className: "arrow-button #{'pressed' if @state.currentVote is 1}"
               onClick: (e) => @sendUpvote e, info.id
               img className: 'up-arrow', src: 'images/arrow.png'
+          div {},
+            span {}, "#{info.score + @state.scoreAdd}"
           div {},
             button
               className: "arrow-button #{'pressed' if @state.currentVote is -1}"
