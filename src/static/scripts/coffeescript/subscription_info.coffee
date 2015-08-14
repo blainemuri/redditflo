@@ -11,7 +11,7 @@ SubscriptionInfo = React.createClass
     @loadInfo @props.name, @props.type
 
   componentWillReceiveProps: (nextProps) ->
-    if @props.name isnt nextProps.name and @props.type isnt nextProps.type
+    if @props.name isnt nextProps.name or @props.type isnt nextProps.type
       @setState participations: []
       @loadInfo nextProps.name, nextProps.type
 
@@ -21,7 +21,7 @@ SubscriptionInfo = React.createClass
       participations = if data.children? then data.children else []
       @setState participations: _.sortBy (participations.map (x) -> x.data), (x) -> -x.score
 
-  getActiveSubreddits: ->
+  renderActiveSubreddits: ->
     participations = @state.participations
     return '' unless participations.length > 0
     subredditCounts = participations.reduce ((a, b) -> b = b.subreddit; a[b] = (a[b] or 0) + 1; a), {}
@@ -35,7 +35,7 @@ SubscriptionInfo = React.createClass
   render: ->
     {div} = React.DOM
     div className: 'subscription-info', key: "#{@props.name}-#{@props.type}",
-      @getActiveSubreddits()
+      @renderActiveSubreddits()
       @state.participations.slice(0, 3).map (p) =>
         type = if p.name.slice(0, 2) is 't1' then 'comment' else 'post'
         title = if p.title? then p.title else p.link_title
