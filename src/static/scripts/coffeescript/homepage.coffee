@@ -60,7 +60,6 @@ Homepage = React.createClass
         span key: data.data.name,
           React.createElement Feed,
             data: data
-            onUrl: @props.onUrl
       if feed.length > 0
         @renderNavigation()
 module.exports =
