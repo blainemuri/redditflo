@@ -69,7 +69,7 @@ Content = React.createClass
               subData: "following /r/#{sub}"
               sub: sub
               subDataClass: 'user-info card-success'
-        , 0)), 500
+        , 0)), 1
 
   submitUser: ->
     @props.sub.push { "name": "#{@state.user}", "type": "user" }

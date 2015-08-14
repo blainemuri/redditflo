@@ -6,9 +6,10 @@ Webview = React.createClass
     args = Object.keys(@props).map (k) => "#{k}=\"#{@props[k]}\""
     args = args.join(' ')
     content = "<webview #{args}></webview>"
-    div
-      className: 'webview'
-      dangerouslySetInnerHTML: __html: content
+    div className: "sub-content #{@props.color}",
+      div
+        className: "webview"
+        dangerouslySetInnerHTML: __html: content
 
 module.exports =
   Webview: Webview

@@ -17,11 +17,15 @@
             "type": "user"
         },
         {
-            "name": "nextlevelyoloswag",
-            "type": "user"
+            "name": "blah",
+            "type": "subreddit"
         },
         {
-            "name": "blah",
+            "name": "happiness",
+            "type": "subreddit"
+        },
+        {
+            "name": "aww",
             "type": "subreddit"
         }
     ]
