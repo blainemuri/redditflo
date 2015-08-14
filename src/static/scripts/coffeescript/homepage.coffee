@@ -49,12 +49,15 @@ Homepage = React.createClass
 
   handleUserSort: (e) ->
     e.stopPropagation()
+    @setState search: ''
     @setState users: not @state.users
     @handleSort 'author'
 
   setSearch: (e) -> @setState search: e.target.value
 
-  hide: -> @setState users: no
+  hide: ->
+    @setState search: ''
+    @setState users: no
 
   render: ->
     {button, div, img, span, webview, input} = React.DOM
