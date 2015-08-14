@@ -33,14 +33,16 @@ Homepage = React.createClass
     window.scroll(window.scrollX, 0)
 
   renderNavigation: ->
-    {div, span} = React.DOM
-    span {},
-      div
+    {div, button} = React.DOM
+    div className: 'nav-buttons',
+      button
+        className: 'nav-button left'
         onClick: @onClickPrevious
         style:
           float: 'left'
         'Previous'
-      div
+      button
+        className: 'nav-button right'
         onClick: @onClickNext
         style:
           float: 'right'
