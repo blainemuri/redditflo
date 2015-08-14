@@ -72,8 +72,8 @@ Feed = React.createClass
               className: "arrow-button #{'pressed' if @state.currentVote is 1}"
               onClick: (e) => @sendUpvote e, info.id
               img className: 'up-arrow', src: 'images/arrow.png'
-          div {},
-            span {}, "#{info.score + @state.scoreAdd}"
+          div className: 'score',
+            div {}, "#{info.score + @state.scoreAdd}"
           div {},
             button
               className: "arrow-button #{'pressed' if @state.currentVote is -1}"
