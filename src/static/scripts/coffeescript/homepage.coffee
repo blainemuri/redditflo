@@ -95,7 +95,7 @@ Homepage = React.createClass
               onClick: => @handleSort 'downs'
               'downs'
             button
-              className: "sort-button #{'focus' if @props.focus is 'author'}"
+              className: "sort-button #{'focus' if @state.userFilter isnt '' or @props.focus is 'author'}"
               onClick: (e) => @handleUserSort e
               'author'
         if @state.users
