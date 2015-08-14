@@ -9,12 +9,12 @@ Homepage = React.createClass
     start: 0
 
   onClickPrevious: ->
-    start = Math.min @props.feed.length, Math.max 0, @state.start-@props.nShown
+    start = Math.max 0, @state.start-@props.nShown
     @setState start: start
     window.scroll(window.scrollX, 0)
 
   onClickNext: ->
-    start = Math.min @props.feed.length, Math.max 0, @state.start+@props.nShown
+    start = Math.min @props.feed.length-@props.nShown, @state.start+@props.nShown
     @setState start: start
     window.scroll(window.scrollX, 0)
 
