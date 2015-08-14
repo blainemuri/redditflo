@@ -6,3 +6,4 @@
 
 ## Run Requirements
  `gulp`
+ `npm start`
