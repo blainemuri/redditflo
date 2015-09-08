@@ -1,34 +1,6 @@
 {
     "subscriptions": [
         {
-            "name": "python",
-            "type": "subreddit"
-        },
-        {
-            "name": "funny",
-            "type": "subreddit"
-        },
-        {
-            "name": "shweel",
-            "type": "user"
-        },
-        {
-            "name": "happiness",
-            "type": "subreddit"
-        },
-        {
-            "name": "aww",
-            "type": "subreddit"
-        },
-        {
-            "name": "btoxic",
-            "type": "user"
-        },
-        {
-            "name": "DIY",
-            "type": "subreddit"
-        },
-        {
             "name": "all",
             "type": "subreddit"
         }
